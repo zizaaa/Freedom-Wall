@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Freedom Wall</title>
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-  
-<form action="" id="comments">
-    <input type="text" name="user" id="user" placeholder="User">
-    <input type="password" name="pass" id="password" placeholder="Pass">
-    <button type="submit">Submit</button>
-</form>
+        <form action="" id="comments">
+            <i class="fa-solid fa-xmark" id="exit"></i>
+            <input type="text" name="comment" id="comment" placeholder="Write a message...">
+            <button type="submit" class="btn">Submit</button>
+        </form>
+  <div class="header">
+    <div class="logo-container"><img src="img/AMA-Logo.png" alt="Logo"></div>
+</div>
+<div class="comments-container" id="commentsContainer">
+    <!-- comments here -->
+    <!-- <div class="comment-box">
+        <p class="message">Hello Worldddddddddddddddddddddd</p>
+        <p class="author">-ziza</p>
+    </div> -->
+    <i class="fa-solid fa-plus" id="addBtn"></i>
+</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
     <script src="js/index.js"></script>
