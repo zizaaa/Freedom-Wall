@@ -31,7 +31,7 @@ const firebaseConfig = {
 //reference your database
 let comments = firebase.database().ref('/Freedom Wall/' + 'Comments');
 
-document.getElementById('comments').addEventListener('submit',e=>{
+document.getElementById('comments').addEventListener('submit',(e)=>{
     e.preventDefault();
     let userComments = comment.value;
     console.log(userComments);
@@ -49,6 +49,7 @@ const saveComments = (userComments)=>{
 
 
 //retrieve datas from database
+//append to DOM
     comments.on("value",(snapchat)=>{
         snapchat.forEach(element => {
             let datas = element.val();
@@ -67,13 +68,47 @@ const saveComments = (userComments)=>{
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             const comment = document.createElement('p');
-            comment.innerText = datas.comment;
+            comment.innerHTML = '\"' + datas.comment + '\"';
             comment.classList.add('comment');
             comment.setAttribute('value',`${comment}`);
             comment.style = `position: absolute; max-width: 10rem; top:${positionT}; left:${positionL}; transform:rotate(${deg}); overflow-wrap: break-word;`;
-            // const author = document.createElement('p');
+            const author = document.createElement('p');
+            author.innerText = datas.nicknames;
 
             commentContainer.appendChild(commentBox);
             commentBox.appendChild(comment);
         });
     });
+
+
+// set nickname
+let nickName;
+
+//recover nickname from local storage
+const savedNickName = localStorage.getItem('nickName');
+nickName=savedNickName;
+
+if (nickName === null) {
+    document.getElementById('nick-name').style = 'z-index:2; transform: scale(1);';
+} else {
+    document.getElementById('nick-name').style = 'z-index:0; transform: scale(0);';
+}
+
+const nickname = document.getElementById('nickName');
+document.getElementById('nick-name').addEventListener('submit',(e)=>{
+    const nickNameValue = nickname.value;
+    
+    nickName=nickNameValue;
+    saveNickName();
+});
+
+//save nickname to local storage
+const saveNickName =()=>{
+    localStorage.setItem('nickName',nickName);
+};
+
+console.log(nickName );
+
+//save nickname to firebase
+//reference your database
+let nickNames = firebase.database().ref('/Freedom Wall/' + 'nicknames').set({nickname:nickName});
