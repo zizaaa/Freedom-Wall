@@ -138,7 +138,7 @@ body{
     -webkit-backdrop-filter: blur(2px);
     border: 1px solid rgba(255, 255, 255, 0.02);
 }
-.nick-name #nickName{
+.nick-name input{
     width: 40%;
     height: 2rem;
     padding: 10px;

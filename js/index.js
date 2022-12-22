@@ -1,4 +1,5 @@
 const addBtn = document.getElementById('addBtn');
+let personalID;
 
 //open the form
 addBtn.addEventListener('click',()=>{
@@ -44,6 +45,7 @@ document.getElementById('comments').addEventListener('submit',(e)=>{
 const saveComments = (userComments)=>{
     comments.push({
         comment:userComments,
+        // personalId:personalID
     });
 };
 
@@ -53,8 +55,7 @@ const saveComments = (userComments)=>{
     comments.on("value",(snapchat)=>{
         snapchat.forEach(element => {
             let datas = element.val();
-            console.log(datas);
-            
+        
             //position setter
             let positionTop = Math.floor(Math.random()*100);
             let positionLeft = Math.floor(Math.random()*100);
@@ -62,7 +63,6 @@ const saveComments = (userComments)=>{
             let positionT = positionTop + '%';
             let positionL = positionLeft + '%';
             let deg = degreePosition + 'deg';
-            console.log(positionTop,positionLeft);
 
             const commentContainer = document.getElementById('commentsContainer');
             const commentBox = document.createElement('div');
@@ -82,33 +82,44 @@ const saveComments = (userComments)=>{
 
 
 // set nickname
-let nickName;
+// let nickName;
 
-//recover nickname from local storage
-const savedNickName = localStorage.getItem('nickName');
-nickName=savedNickName;
+// //recover nickname from local storage
+// const savedNickName =localStorage.getItem('nickName');
+// nickName=savedNickName;
 
-if (nickName === null) {
-    document.getElementById('nick-name').style = 'z-index:2; transform: scale(1);';
-} else {
-    document.getElementById('nick-name').style = 'z-index:0; transform: scale(0);';
-}
+// if (nickName === null) {
+//     document.getElementById('nick-name').style = 'z-index:2; transform: scale(1);';
+// } else {
+//     document.getElementById('nick-name').style = 'z-index:0; transform: scale(0);';
+// }
 
-const nickname = document.getElementById('nickName');
-document.getElementById('nick-name').addEventListener('submit',(e)=>{
-    const nickNameValue = nickname.value;
+// //save nickname to firebase
+// //reference your database
+// let nickNames = firebase.database().ref('/Freedom Wall/' + 'nicknames');
+
+// const nickname = document.getElementById('nickName');
+// document.getElementById('nick-name').addEventListener('submit',(e)=>{
+//     e.preventDefault();
+//     const nickNameValue = nickname.value;
     
-    nickName=nickNameValue;
-    saveNickName();
-});
+//     nickName=nickNameValue;
+//     saveNickName();
+//     nickNames.push({
+//         Nickname:nickName,
+//         // personalId:personalID
+//     });
+
+//     //generate personal ID
+//     // personalID = Math.random();
+// });
+
+
 
 //save nickname to local storage
-const saveNickName =()=>{
-    localStorage.setItem('nickName',nickName);
-};
+// const saveNickName =()=>{
+//   localStorage.setItem('nickName',nickName);
+// };
 
-console.log(nickName );
-
-//save nickname to firebase
-//reference your database
-let nickNames = firebase.database().ref('/Freedom Wall/' + 'nicknames').set({nickname:nickName});
+// console.log(nickName);
+// console.log(personalID);
