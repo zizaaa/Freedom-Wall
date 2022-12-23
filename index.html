@@ -18,7 +18,8 @@
         <form action="" id="comments">
             <i class="fa-solid fa-xmark" id="exit"></i>
             <input type="text" name="comment" id="comment" placeholder="Write a message...">
-            <button type="submit" class="btn">Submit</button>
+            <input type="text" name="nickname" id="nickname" placeholder="Enter your nickname(optional)">
+            <button type="submit" class="btn" id="btn">Submit</button>
         </form>
 
 <!-- header -->
@@ -27,9 +28,9 @@
 </div>
 <div class="comments-container" id="commentsContainer">
     <!-- comments here -->
-    <i class="fa-solid fa-plus" id="addBtn"></i>
+    
 </div>
-
+<i class="fa-solid fa-plus" id="addBtn" disabled="true"></i>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
     <script src="js/index.js"></script>
 </body>

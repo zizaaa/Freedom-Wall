@@ -1,5 +1,5 @@
 const addBtn = document.getElementById('addBtn');
-let personalID;
+
 
 //open the form
 addBtn.addEventListener('click',()=>{
@@ -14,6 +14,7 @@ let exit = document.getElementById('exit').addEventListener('click',()=>{
 
 
 let comment = document.getElementById('comment');
+let nickName = document.getElementById('nickname');
 
 const firebaseConfig = {
     apiKey: "AIzaSyC5d8piNDK-4gY9udFFsQYKSr9XQtmnWr4",
@@ -30,21 +31,29 @@ const firebaseConfig = {
 
 
 //reference your database
-let comments = firebase.database().ref('/Freedom Wall/' + 'Comments');
+let comments = firebase.database().ref('/Freedom Wall/');
 
-document.getElementById('comments').addEventListener('submit',(e)=>{
-    e.preventDefault();
-    let userComments = comment.value;
-    console.log(userComments);
-    saveComments(userComments);
-    comment.value='';
-    const form = document.getElementById('comments');
-    form.style = 'z-index:0; transform: scale(0);';
-});
+    document.getElementById('comments').addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let userComments = comment.value;
+        let usernickName = nickName.value;
+        //check nickname
+        if(usernickName==''){
+            usernickName='Unknown';
+        }
+        saveComments(userComments,usernickName);
+        comment.value='';
+        nickName.value='';
+        const form = document.getElementById('comments');
+        form.style = 'z-index:0; transform: scale(0);';
+    });
 
-const saveComments = (userComments)=>{
+
+
+const saveComments = (userComments,usernickName)=>{
     comments.push({
         comment:userComments,
+        nickname:usernickName
         // personalId:personalID
     });
 };
@@ -53,9 +62,10 @@ const saveComments = (userComments)=>{
 //retrieve datas from database
 //append to DOM
     comments.on("value",(snapchat)=>{
+        const commentContainer = document.getElementById('commentsContainer');
+        commentContainer.innerHTML='';
         snapchat.forEach(element => {
             let datas = element.val();
-        
             //position setter
             let positionTop = Math.floor(Math.random()*100);
             let positionLeft = Math.floor(Math.random()*100);
@@ -63,24 +73,32 @@ const saveComments = (userComments)=>{
             let positionT = positionTop + '%';
             let positionL = positionLeft + '%';
             let deg = degreePosition + 'deg';
+            //color picker
+            let backgroundColor = ['lightcoral','lightblue','lightpink','lightskyblue','lightseagreen'];
+            let randomColorPicker = Math.floor(Math.random()*backgroundColor.length);
 
-            const commentContainer = document.getElementById('commentsContainer');
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             const comment = document.createElement('p');
             comment.innerHTML = '\"' + datas.comment + '\"';
             comment.classList.add('comment');
             comment.setAttribute('value',`${comment}`);
-            comment.style = `position: absolute; max-width: 10rem; top:${positionT}; left:${positionL}; transform:rotate(${deg}); overflow-wrap: break-word;`;
+            commentBox.style = `position: absolute; max-width: 10rem; top:${positionT}; left:${positionL}; transform:rotate(${deg}); overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.1);`;
             const author = document.createElement('p');
-            author.innerText = datas.nicknames;
+            author.innerText = '-'+datas.nickname;
 
             commentContainer.appendChild(commentBox);
             commentBox.appendChild(comment);
+            commentBox.appendChild(author);
+         
+            console.log(datas);
+
+            
         });
+        
+
     });
-
-
+    
 // set nickname
 // let nickName;
 
