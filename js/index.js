@@ -38,14 +38,23 @@ let comments = firebase.database().ref('/Freedom Wall/');
         let userComments = comment.value;
         let usernickName = nickName.value;
         //check nickname
-        if(usernickName==''){
+        if(usernickName.length < 0 && userComments.length > 0){
             usernickName='Unknown';
+            saveComments(userComments,usernickName);
+            comment.value='';
+            nickName.value='';
+            const form = document.getElementById('comments');
+            form.style = 'z-index:0; transform: scale(0);';
+        }else if(usernickName.length > 0 && userComments.length > 0){
+            saveComments(userComments,usernickName);
+            comment.value='';
+            nickName.value='';
+            const form = document.getElementById('comments');
+            form.style = 'z-index:0; transform: scale(0);';
+        }else{
+            const form = document.getElementById('comments');
+            form.style = 'z-index:2; transform: scale(1);';
         }
-        saveComments(userComments,usernickName);
-        comment.value='';
-        nickName.value='';
-        const form = document.getElementById('comments');
-        form.style = 'z-index:0; transform: scale(0);';
     });
 
 
@@ -58,7 +67,8 @@ const saveComments = (userComments,usernickName)=>{
     });
 };
 
-
+//list of datas
+let list = [];
 //retrieve datas from database
 //append to DOM
     comments.on("value",(snapchat)=>{
@@ -67,26 +77,33 @@ const saveComments = (userComments,usernickName)=>{
         snapchat.forEach(element => {
             let datas = element.val();
             //position setter
-            let positionTop = Math.floor(Math.random()*100);
-            let positionLeft = Math.floor(Math.random()*100);
-            let degreePosition = Math.floor(Math.random()*360);
-            let positionT = positionTop + '%';
+            let positionTop = Math.floor(Math.random()*1000);
+            let positionLeft = Math.floor(Math.random()*85);
+            let positionT = positionTop + 'px';
             let positionL = positionLeft + '%';
-            let deg = degreePosition + 'deg';
+            console.log(positionT);
+            console.log(positionL);
             //color picker
             let backgroundColor = ['lightcoral','lightblue','lightpink','lightskyblue','lightseagreen'];
             let randomColorPicker = Math.floor(Math.random()*backgroundColor.length);
+            let pinColor = ['darkblue','darkgreen','darkred','yellow','black'];
+            let randompinColorPicker = Math.floor(Math.random()*pinColor.length);
 
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
+            commentBox.setAttribute('class','commentBox');
+            commentBox.style = `cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
+            
             const icon = document.createElement('p');
             icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
-            icon.style = 'position:absolute; top:-9px;left:0; color:darkblue;';
+            icon.style = `position:absolute; top:-9px;left:50%; color:${pinColor[randompinColorPicker]};`;
+            
             const comment = document.createElement('p');
             comment.innerHTML = '\"' + datas.comment + '\"';
             comment.classList.add('comment');
-            comment.setAttribute('value',`${comment}`);
-            commentBox.style = `position: absolute; max-width: 10rem; top:${positionT}; left:${positionL}; transform:rotate(${deg}); overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.1);`;
+            comment.setAttribute('id','comment');
+            comment.setAttribute('value',`${datas.comment}`);
+            
             const author = document.createElement('p');
             author.innerText = '-'+datas.nickname;
 
@@ -94,14 +111,25 @@ const saveComments = (userComments,usernickName)=>{
             commentBox.appendChild(icon);
             commentBox.appendChild(comment);
             commentBox.appendChild(author);
-         
-            console.log(datas);
-
-        });
         
 
+        //list pusher
+        list.push({
+            comment:datas.comment,
+            user:datas.nickName
+        });
+         if(list.length > 100){
+           let btn = document.getElementById('btn');
+            btn.disabled = true;
+         }else{
+            let btn = document.getElementById('btn');
+            btn.disabled = false;
+         }
+        
     });
-    
+
+}); 
+
 // set nickname
 // let nickName;
 
