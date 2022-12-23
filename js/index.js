@@ -38,19 +38,13 @@ let comments = firebase.database().ref('/Freedom Wall/');
         let userComments = comment.value;
         let usernickName = nickName.value;
         //check nickname
-        if(usernickName.length < 0 && userComments.length > 0){
-            usernickName='Unknown';
+        if(usernickName.length > 0 && userComments.length > 0){
             saveComments(userComments,usernickName);
             comment.value='';
             nickName.value='';
             const form = document.getElementById('comments');
             form.style = 'z-index:0; transform: scale(0);';
-        }else if(usernickName.length > 0 && userComments.length > 0){
-            saveComments(userComments,usernickName);
-            comment.value='';
-            nickName.value='';
-            const form = document.getElementById('comments');
-            form.style = 'z-index:0; transform: scale(0);';
+            timer();
         }else{
             const form = document.getElementById('comments');
             form.style = 'z-index:2; transform: scale(1);';
@@ -81,8 +75,6 @@ let list = [];
             let positionLeft = Math.floor(Math.random()*85);
             let positionT = positionTop + 'px';
             let positionL = positionLeft + '%';
-            console.log(positionT);
-            console.log(positionL);
             //color picker
             let backgroundColor = ['lightcoral','lightblue','lightpink','lightskyblue','lightseagreen'];
             let randomColorPicker = Math.floor(Math.random()*backgroundColor.length);
@@ -119,16 +111,51 @@ let list = [];
             user:datas.nickName
         });
          if(list.length > 100){
-           let btn = document.getElementById('btn');
+           let btn = document.getElementById('addBtn');
             btn.disabled = true;
          }else{
-            let btn = document.getElementById('btn');
+            let btn = document.getElementById('addBtn');
             btn.disabled = false;
          }
         
     });
 
 }); 
+
+
+
+//coutdown
+const timer=()=>{
+    let count = 20;
+    let countEl;
+    //recover
+    let recoveredCount = JSON.parse(localStorage.getItem('count'));
+        countEl=recoveredCount;  
+console.log(recoveredCount);
+    let btn = document.getElementById('addBtn');
+    let display = document.getElementById('countdown');
+    btn.disabled = true;
+
+    const countDown=()=>{
+        count--;
+        countEl=count;
+        display.innerHTML = countEl;
+        savecount();
+    };
+    const stop=()=>{
+        clearInterval(counter);
+        btn.disabled = false;
+        count=20;
+        savecount();
+    };
+   let counter = setInterval(countDown,1000);
+    setTimeout(stop,20000);
+    display.innerHTML ='';
+
+    const savecount=()=>{
+        JSON.stringify(localStorage.setItem('count',countEl));
+    };
+};
 
 // set nickname
 // let nickName;
