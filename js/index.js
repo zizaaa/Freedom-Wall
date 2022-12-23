@@ -79,6 +79,9 @@ const saveComments = (userComments,usernickName)=>{
 
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
+            const icon = document.createElement('p');
+            icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
+            icon.style = 'position:absolute; top:-9px;left:0; color:darkblue;';
             const comment = document.createElement('p');
             comment.innerHTML = '\"' + datas.comment + '\"';
             comment.classList.add('comment');
@@ -88,12 +91,12 @@ const saveComments = (userComments,usernickName)=>{
             author.innerText = '-'+datas.nickname;
 
             commentContainer.appendChild(commentBox);
+            commentBox.appendChild(icon);
             commentBox.appendChild(comment);
             commentBox.appendChild(author);
          
             console.log(datas);
 
-            
         });
         
 
