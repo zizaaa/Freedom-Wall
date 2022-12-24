@@ -16,7 +16,6 @@ const firebaseConfig = {
 //initialize firebase
   firebase.initializeApp(firebaseConfig);
 
-
 //reference your database
 let comments = firebase.database().ref('/Freedom Wall/');
 
@@ -50,26 +49,7 @@ const stl=()=>{
     JSON.stringify(localStorage.setItem('bool',bool));
 };
 
-
-
-
 const saveComments = (userComments,usernickName)=>{
-    // //set time
-    // let dateTime = new Date();
-    // let hrs = dateTime.getHours();
-    // let min = dateTime.getMinutes();
-    // let ampm;
-
-    // if(hrs >= 12){
-    //     ampm = 'PM';
-    // }else{
-    //     ampm = 'AM';
-    // }
-
-    // if(hrs > 12){
-    //     hrs = hrs - 12;
-    // }
-    // let time = `${hrs}:${min} ${ampm}`;
 
     function formatAMPM(date) {
         var hours = date.getHours();
@@ -80,9 +60,8 @@ const saveComments = (userComments,usernickName)=>{
         minutes = minutes < 10 ? '0'+minutes : minutes;
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
-      }
-      
-      let time=formatAMPM(new Date);
+    }
+        let time=formatAMPM(new Date);
 
     comments.push({
         comment:userComments,
@@ -90,8 +69,6 @@ const saveComments = (userComments,usernickName)=>{
         time:time
     });
 };
-
-
 
 //limmiter
 comments.on("value",(element)=>{
@@ -143,7 +120,6 @@ comments.on("value",(element)=>{
                 commentBox.style = `z-index:${index}; cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
             });
             
-
             const icon = document.createElement('p');
             icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
             icon.style = `position:absolute; top:-13px;font-size:20px;left:45%; color:${pinColor[randompinColorPicker]};`;
@@ -167,13 +143,10 @@ comments.on("value",(element)=>{
             commentBox.appendChild(comment);
             commentBox.appendChild(author);
             commentBox.appendChild(time);
-
-  
     });
 
     
 }); 
-
 
 //coutdown
 const timer=()=>{
@@ -200,8 +173,6 @@ const timer=()=>{
         }
     }
     setTimeout(countDownTimer,1000);
-   
-
 };
 
 //open the form
@@ -217,56 +188,8 @@ if(bool === true || bool === 'true'){
     timer();
 }
 
-
-
-
-
 //close form
 let exit = document.getElementById('exit').addEventListener('click',()=>{
     const form = document.getElementById('comments');
     form.style = 'z-index:0; transform: scale(0);';
 });
-
-
-// set nickname
-// let nickName;
-
-// //recover nickname from local storage
-// const savedNickName =localStorage.getItem('nickName');
-// nickName=savedNickName;
-
-// if (nickName === null) {
-//     document.getElementById('nick-name').style = 'z-index:2; transform: scale(1);';
-// } else {
-//     document.getElementById('nick-name').style = 'z-index:0; transform: scale(0);';
-// }
-
-// //save nickname to firebase
-// //reference your database
-// let nickNames = firebase.database().ref('/Freedom Wall/' + 'nicknames');
-
-// const nickname = document.getElementById('nickName');
-// document.getElementById('nick-name').addEventListener('submit',(e)=>{
-//     e.preventDefault();
-//     const nickNameValue = nickname.value;
-    
-//     nickName=nickNameValue;
-//     saveNickName();
-//     nickNames.push({
-//         Nickname:nickName,
-//         // personalId:personalID
-//     });
-
-//     //generate personal ID
-//     // personalID = Math.random();
-// });
-
-
-
-//save nickname to local storage
-// const saveNickName =()=>{
-//   localStorage.setItem('nickName',nickName);
-// };
-
-// console.log(nickName);
-// console.log(personalID);
