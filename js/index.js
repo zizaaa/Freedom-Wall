@@ -54,24 +54,35 @@ const stl=()=>{
 
 
 const saveComments = (userComments,usernickName)=>{
-    //set time
-    let dateTime = new Date();
-    let hrs = dateTime.getHours();
-    let min = dateTime.getMinutes();
-    let ampm;
+    // //set time
+    // let dateTime = new Date();
+    // let hrs = dateTime.getHours();
+    // let min = dateTime.getMinutes();
+    // let ampm;
 
-    if(hrs >= 12){
-        ampm = 'PM';
-    }else{
-        ampm = 'AM';
-    }
+    // if(hrs >= 12){
+    //     ampm = 'PM';
+    // }else{
+    //     ampm = 'AM';
+    // }
 
-    if(hrs > 12){
-        hrs = hrs - 12;
-    }
+    // if(hrs > 12){
+    //     hrs = hrs - 12;
+    // }
+    // let time = `${hrs}:${min} ${ampm}`;
 
-    let time = `${hrs}:${min} ${ampm}`;
-
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+      }
+      
+      let time=formatAMPM(new Date);
 
     comments.push({
         comment:userComments,
@@ -89,7 +100,6 @@ comments.on("value",(element)=>{
     for(let i in data){
         c++;
     }
-    console.log(c);
           if(c > 100){
             document.getElementById('addBtn').disabled=true;
             document.getElementById("countdown").innerHTML = 'Limit exceeded. Please wait...';
@@ -123,7 +133,14 @@ comments.on("value",(element)=>{
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
             commentBox.style = `cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
-            
+            let index = 0;
+            commentBox.addEventListener('click',(e)=>{
+                console.log(commentBox);
+                index++;
+                console.log(index);
+                commentBox.style = `z-index:${index}; cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
+            });
+
             const icon = document.createElement('p');
             icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
             icon.style = `position:absolute; top:-13px;font-size:20px;left:45%; color:${pinColor[randompinColorPicker]};`;
