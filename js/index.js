@@ -50,13 +50,56 @@ const stl=()=>{
     JSON.stringify(localStorage.setItem('bool',bool));
 };
 
-// stl();
+
+
+
 const saveComments = (userComments,usernickName)=>{
+    //set time
+    let dateTime = new Date();
+    let hrs = dateTime.getHours();
+    let min = dateTime.getMinutes();
+    let ampm;
+
+    if(hrs >= 12){
+        ampm = 'PM';
+    }else{
+        ampm = 'AM';
+    }
+
+    if(hrs > 12){
+        hrs = hrs - 12;
+    }
+
+    let time = `${hrs}:${min} ${ampm}`;
+
+
     comments.push({
         comment:userComments,
-        nickname:usernickName  
+        nickname:usernickName,
+        time:time
     });
 };
+
+
+
+//limmiter
+comments.on("value",(element)=>{
+    let c=0;
+    let data = element.val();
+    for(let i in data){
+        c++;
+    }
+    console.log(c);
+          if(c > 100){
+            document.getElementById('addBtn').disabled=true;
+            document.getElementById("countdown").innerHTML = 'Limit exceeded. Please wait...';
+
+        }else{
+            document.getElementById('addBtn').disabled=false;
+            document.getElementById("countdown").innerHTML = '';
+        }
+        // window.location.reload(true);
+});
 
 //retrieve datas from database
 //append to DOM
@@ -83,7 +126,7 @@ const saveComments = (userComments,usernickName)=>{
             
             const icon = document.createElement('p');
             icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
-            icon.style = `position:absolute; top:-9px;left:50%; color:${pinColor[randompinColorPicker]};`;
+            icon.style = `position:absolute; top:-13px;font-size:20px;left:45%; color:${pinColor[randompinColorPicker]};`;
             
             const comment = document.createElement('p');
             comment.innerHTML = '\"' + datas.comment + '\"';
@@ -93,13 +136,21 @@ const saveComments = (userComments,usernickName)=>{
             
             const author = document.createElement('p');
             author.innerText = '-'+datas.nickname;
+            author.style = 'margin-top:5px;';
+
+            const time = document.createElement('p');
+            time.innerHTML = datas.time;
+            time.style =  'font-size:10px; margin-top:20px;';
 
             commentContainer.appendChild(commentBox);
             commentBox.appendChild(icon);
             commentBox.appendChild(comment);
             commentBox.appendChild(author);
-        
+            commentBox.appendChild(time);
+
+  
     });
+
     
 }); 
 
