@@ -18,15 +18,16 @@ const firebaseConfig = {
 
 
 //reference your database
-// let bool =true;
 let comments = firebase.database().ref('/Freedom Wall/');
-if(JSON.parse(localStorage.getItem('bool'))){
-    bool=JSON.parse(localStorage.getItem('bool'));
+
+let bool;
+const stlData = JSON.parse(localStorage.getItem('bool'));
+if(stlData!=null){
+    bool=stlData;
 }else{
    bool = true;
 }
-
-
+console.log(bool);
     document.getElementById('comments').addEventListener('submit',(e)=>{
         e.preventDefault();
         let userComments = comment.value;
@@ -49,6 +50,7 @@ if(JSON.parse(localStorage.getItem('bool'))){
 const stl=()=>{
     JSON.stringify(localStorage.setItem('bool',bool));
 };
+
 // stl();
 const saveComments = (userComments,usernickName)=>{
     comments.push({
@@ -149,18 +151,16 @@ const timer=()=>{
 
 //open the form
 
-if(JSON.parse(localStorage.getItem('bool'))==true || JSON.parse(localStorage.getItem('bool'))=='true'){
+if(bool === true || bool === 'true'){
     addBtn.addEventListener('click',()=>{
         const form = document.getElementById('comments');
         form.style = 'z-index:2; transform: scale(1);';
     });
-    console.log('True');
-}else if(JSON.parse(localStorage.getItem('bool'))==false || JSON.parse(localStorage.getItem('bool'))=='false'){
+}else if(bool === false||bool==='false'){
     const form = document.getElementById('comments');
     form.style = 'z-index:0; transform: scale(0);';
     document.getElementById('addBtn').disabled=true;
     timer();
-    console.log('False');
 }
 
 
