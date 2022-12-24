@@ -44,6 +44,7 @@ if(stlData!=null){
             const form = document.getElementById('comments');
             form.style = 'z-index:2; transform: scale(1);';
         }
+        
     });
 const stl=()=>{
     JSON.stringify(localStorage.setItem('bool',bool));
@@ -90,6 +91,7 @@ comments.on("value",(element)=>{
 
 //retrieve datas from database
 //append to DOM
+const main=()=>{
     comments.on("value",(snapchat)=>{
         const commentContainer = document.getElementById('commentsContainer');
         commentContainer.innerHTML='';
@@ -105,11 +107,20 @@ comments.on("value",(element)=>{
             let randomColorPicker = Math.floor(Math.random()*backgroundColor.length);
             let pinColor = ['darkblue','darkgreen','darkred','yellow','black'];
             let randompinColorPicker = Math.floor(Math.random()*pinColor.length);
+            //degree picker
+            let deg=[];
+            let positiveDeg = Math.floor(Math.random()*30);
+            deg.push(positiveDeg);
+            let negativeDeg = Math.floor(Math.random()*-30);
+            deg.push(negativeDeg);
+            let picker = Math.floor(Math.random()*deg.length);
+            let rotdeg = deg[picker]+'deg';
+            deg=[];
 
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
-            commentBox.style = `cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
+            commentBox.style = `transform: rotate(${rotdeg});;cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
             let index = 0;
             commentBox.addEventListener('click',(e)=>{
                 if(index === 2){
@@ -145,8 +156,9 @@ comments.on("value",(element)=>{
             commentBox.appendChild(time);
     });
 
-    
 }); 
+};
+main();
 
 //coutdown
 const timer=()=>{
