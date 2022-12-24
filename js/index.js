@@ -135,11 +135,14 @@ comments.on("value",(element)=>{
             commentBox.style = `cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
             let index = 0;
             commentBox.addEventListener('click',(e)=>{
-                console.log(commentBox);
-                index++;
-                console.log(index);
+                if(index === 2){
+                index--;
+                }else{
+                    index++;
+                }
                 commentBox.style = `z-index:${index}; cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
             });
+            
 
             const icon = document.createElement('p');
             icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
@@ -202,11 +205,10 @@ const timer=()=>{
 };
 
 //open the form
-
 if(bool === true || bool === 'true'){
     addBtn.addEventListener('click',()=>{
         const form = document.getElementById('comments');
-        form.style = 'z-index:2; transform: scale(1);';
+        form.style = 'z-index:4; transform: scale(1);';
     });
 }else if(bool === false||bool==='false'){
     const form = document.getElementById('comments');
