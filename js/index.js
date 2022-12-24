@@ -27,7 +27,6 @@ if(stlData!=null){
 }else{
    bool = true;
 }
-console.log(bool);
     document.getElementById('comments').addEventListener('submit',(e)=>{
         e.preventDefault();
         let userComments = comment.value;
@@ -59,8 +58,6 @@ const saveComments = (userComments,usernickName)=>{
     });
 };
 
-//list of datas
-let list = [];
 //retrieve datas from database
 //append to DOM
     comments.on("value",(snapchat)=>{
@@ -102,23 +99,10 @@ let list = [];
             commentBox.appendChild(comment);
             commentBox.appendChild(author);
         
-
-        //list pusher
-        list.push({
-            comment:datas.comment,
-            user:datas.nickName
-        });
-         if(list.length > 100){
-           let btn = document.getElementById('addBtn');
-            btn.disabled = true;
-         }else{
-            let btn = document.getElementById('addBtn');
-            btn.disabled = false;
-         }
-        
     });
     
 }); 
+
 
 //coutdown
 const timer=()=>{
