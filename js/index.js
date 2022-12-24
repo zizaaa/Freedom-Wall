@@ -1,18 +1,5 @@
 const addBtn = document.getElementById('addBtn');
 
-
-//open the form
-addBtn.addEventListener('click',()=>{
-    const form = document.getElementById('comments');
-    form.style = 'z-index:2; transform: scale(1);';
-});
-//close form
-let exit = document.getElementById('exit').addEventListener('click',()=>{
-    const form = document.getElementById('comments');
-    form.style = 'z-index:0; transform: scale(0);';
-});
-
-
 let comment = document.getElementById('comment');
 let nickName = document.getElementById('nickname');
 
@@ -31,7 +18,14 @@ const firebaseConfig = {
 
 
 //reference your database
+// let bool =true;
 let comments = firebase.database().ref('/Freedom Wall/');
+if(JSON.parse(localStorage.getItem('bool'))){
+    bool=JSON.parse(localStorage.getItem('bool'));
+}else{
+   bool = true;
+}
+
 
     document.getElementById('comments').addEventListener('submit',(e)=>{
         e.preventDefault();
@@ -44,20 +38,22 @@ let comments = firebase.database().ref('/Freedom Wall/');
             nickName.value='';
             const form = document.getElementById('comments');
             form.style = 'z-index:0; transform: scale(0);';
-            timer();
+            bool=false;
+            stl();
+            window.location.reload(true);
         }else{
             const form = document.getElementById('comments');
             form.style = 'z-index:2; transform: scale(1);';
         }
     });
-
-
-
+const stl=()=>{
+    JSON.stringify(localStorage.setItem('bool',bool));
+};
+// stl();
 const saveComments = (userComments,usernickName)=>{
     comments.push({
         comment:userComments,
-        nickname:usernickName
-        // personalId:personalID
+        nickname:usernickName  
     });
 };
 
@@ -119,43 +115,64 @@ let list = [];
          }
         
     });
-
+    
 }); 
-
-
 
 //coutdown
 const timer=()=>{
-    let count = 20;
-    let countEl;
-    //recover
-    let recoveredCount = JSON.parse(localStorage.getItem('count'));
-        countEl=recoveredCount;  
-console.log(recoveredCount);
-    let btn = document.getElementById('addBtn');
-    let display = document.getElementById('countdown');
-    btn.disabled = true;
+    if(localStorage.getItem("count_timer")){
+        var count_timer = localStorage.getItem("count_timer");
+    } else {
+        var count_timer = 60*0.3+2;
+    }
+    var seconds = parseInt(count_timer%60);
+    function countDownTimer(){
+        document.getElementById("countdown").innerHTML = seconds;
+        if(count_timer <= 0){
+            bool=true;
+            stl();
+            // localStorage.clear("count_timer");
+            count_timer=60*0.3+2;
+            localStorage.setItem("count_timer",count_timer);
+            window.location.reload(true);
+        } else {
+            count_timer = count_timer -1 ;
+            seconds = parseInt(count_timer%60);
+            localStorage.setItem("count_timer",count_timer);
+            setTimeout(countDownTimer,1000);
+        }
+    }
+    setTimeout(countDownTimer,1000);
+   
 
-    const countDown=()=>{
-        count--;
-        countEl=count;
-        display.innerHTML = countEl;
-        savecount();
-    };
-    const stop=()=>{
-        clearInterval(counter);
-        btn.disabled = false;
-        count=20;
-        savecount();
-    };
-   let counter = setInterval(countDown,1000);
-    setTimeout(stop,20000);
-    display.innerHTML ='';
-
-    const savecount=()=>{
-        JSON.stringify(localStorage.setItem('count',countEl));
-    };
 };
+
+//open the form
+
+if(JSON.parse(localStorage.getItem('bool'))==true || JSON.parse(localStorage.getItem('bool'))=='true'){
+    addBtn.addEventListener('click',()=>{
+        const form = document.getElementById('comments');
+        form.style = 'z-index:2; transform: scale(1);';
+    });
+    console.log('True');
+}else if(JSON.parse(localStorage.getItem('bool'))==false || JSON.parse(localStorage.getItem('bool'))=='false'){
+    const form = document.getElementById('comments');
+    form.style = 'z-index:0; transform: scale(0);';
+    document.getElementById('addBtn').disabled=true;
+    timer();
+    console.log('False');
+}
+
+
+
+
+
+//close form
+let exit = document.getElementById('exit').addEventListener('click',()=>{
+    const form = document.getElementById('comments');
+    form.style = 'z-index:0; transform: scale(0);';
+});
+
 
 // set nickname
 // let nickName;
