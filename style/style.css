@@ -160,8 +160,8 @@ body{
     top: 0;
     bottom: 0;
     width: 100%;
-    z-index: 0;
-    transform: scale(0);
+    z-index: 5;
+    transform: scale(1);
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -173,11 +173,10 @@ body{
         align-items: center;
         justify-content: center;
         position: absolute;
+        padding-bottom: 30px;
     }
     #comments{
         width:90%;
-        margin-bottom: 30px;
-        
     }
     .about{
         margin-right:30px ;
@@ -208,6 +207,16 @@ body{
         width: 130px;
         padding-top: 10px;
         padding-bottom: 10px;
+    }
+
+    .form-container .fa-xmark{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 20px;
+        cursor: pointer;
+        color: gray;
+    
     }
 }
 @media(max-width:375px){
