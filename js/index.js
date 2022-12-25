@@ -122,13 +122,13 @@ const main=()=>{
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
-            commentBox.style = `transform: rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+            commentBox.style = `transform: rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             //unhide post
             commentBox.addEventListener('click',(e)=>{
-                commentBox.style = `transition:all .8s;z-index:2;cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+                commentBox.style = `transition:all .8s;z-index:2;cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             });
             commentBox.addEventListener('mouseleave',(e)=>{
-                commentBox.style = `transition:all .8s; z-index:0;transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+                commentBox.style = `transition:all .8s; z-index:0;transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             });
             
             const iconDev = document.createElement('div');
