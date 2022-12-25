@@ -120,7 +120,7 @@ const main=()=>{
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
-            commentBox.style = `transform: rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
+            commentBox.style = `transform: rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             let index = 0;
             commentBox.addEventListener('click',(e)=>{
                 if(index === 2){
@@ -128,7 +128,7 @@ const main=()=>{
                 }else{
                     index++;
                 }
-                commentBox.style = `z-index:${index};transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
+                commentBox.style = `z-index:${index};transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             });
             
             const iconDev = document.createElement('div');

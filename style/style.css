@@ -163,6 +163,7 @@ body{
     border: none;
     outline: none;
     overflow-wrap: break-word;
+    transition: all .4s;
 }
 #comments input:focus{
     border: none;
@@ -217,6 +218,7 @@ body{
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     border: 1px solid rgba(255, 255, 255, 0.02);
+    transition: all .4s;
 }
 .nick-name input{
     width: 40%;
