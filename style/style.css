@@ -44,8 +44,8 @@ body{
     background: gray; 
   }
 .header{
-    /* background: rgba(255, 255, 255, 0.28); */
-    background: #e4e3e3;
+    background:transparent /*rgba(255, 255, 255, 0.28)*/;
+    /* background: #e4e3e3; */
     backdrop-filter: blur(100px);
     -webkit-backdrop-filter: blur(100px);
     z-index: 1;
