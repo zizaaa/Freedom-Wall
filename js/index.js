@@ -74,10 +74,12 @@ const saveComments = (userComments,usernickName)=>{
 //limmiter
 comments.on("value",(element)=>{
     let c=0;
+    let limit = 100;
     let data = element.val();
     for(let i in data){
         c++;
     }
+    document.getElementById('numberofComments').innerHTML = limit-c;
           if(c > 100){
             document.getElementById('addBtn').disabled=true;
             document.getElementById("countdown").innerHTML = 'Limit exceeded. Please wait...';
@@ -86,7 +88,6 @@ comments.on("value",(element)=>{
             document.getElementById('addBtn').disabled=false;
             document.getElementById("countdown").innerHTML = '';
         }
-        // window.location.reload(true);
 });
 
 //retrieve datas from database
@@ -121,14 +122,17 @@ const main=()=>{
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
             commentBox.style = `transform: rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
-            let index = 0;
+            // let index = 0;
             commentBox.addEventListener('click',(e)=>{
-                if(index === 2){
-                index--;
-                }else{
-                    index++;
-                }
-                commentBox.style = `z-index:${index};transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+                // if(index === 2){
+                // index--;
+                // }else{
+                //     index++;
+                // }
+                commentBox.style = `z-index:2;transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+            });
+            commentBox.addEventListener('mouseleave',(e)=>{
+                commentBox.style = `z-index:0;transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             });
             
             const iconDev = document.createElement('div');
