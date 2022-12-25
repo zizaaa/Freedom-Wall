@@ -20,7 +20,7 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     background-color: rgb(14,40,63);
-    overflow: scroll;
+    overflow-y: scroll;
     position: relative;
 }
 /* width */
