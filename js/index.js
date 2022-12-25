@@ -120,7 +120,7 @@ const main=()=>{
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
-            commentBox.style = `transform: rotate(${rotdeg});;cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
+            commentBox.style = `transform: rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
             let index = 0;
             commentBox.addEventListener('click',(e)=>{
                 if(index === 2){
@@ -128,12 +128,16 @@ const main=()=>{
                 }else{
                     index++;
                 }
-                commentBox.style = `z-index:${index}; cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
+                commentBox.style = `z-index:${index};transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:1px 1px 2px 2px rgba(0, 0, 0, 0.1);`;
             });
             
-            const icon = document.createElement('p');
-            icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
-            icon.style = `position:absolute; top:-13px;font-size:20px;left:45%; color:${pinColor[randompinColorPicker]};`;
+            const iconDev = document.createElement('div');
+            const icon = document.createElement('img');
+            icon.setAttribute('src','img/pin.png');
+            icon.style = 'width: 35px;';
+            iconDev.appendChild(icon);
+            // icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
+            iconDev.style = `position:absolute; top:-15px;left:45%;`;
             
             const comment = document.createElement('p');
             comment.innerHTML = '\"' + datas.comment + '\"';
@@ -150,7 +154,7 @@ const main=()=>{
             time.style =  'font-size:10px; margin-top:20px;';
 
             commentContainer.appendChild(commentBox);
-            commentBox.appendChild(icon);
+            commentBox.appendChild(iconDev);
             commentBox.appendChild(comment);
             commentBox.appendChild(author);
             commentBox.appendChild(time);
