@@ -103,7 +103,7 @@ body{
 }
 .comments-container{
     width: 100%;
-    height: 88vh;
+    height: 85vh;
     position: relative;
     display: flex;
     align-items: start;
@@ -150,8 +150,7 @@ body{
 } */
 
 
-
-#comments{
+.form-container{
     background: rgba(255, 255, 255, 0.28);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(2px);
@@ -165,26 +164,83 @@ body{
     transform: scale(0);
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
+    justify-content: space-evenly;
+}
+@media(max-width:700px){
+    .form-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow-x: scroll;
+    }
+    #comments{
+        width:90%;
+        margin-bottom: 30px;
+    }
+    .about{
+        margin-right:30px ;
+        margin-bottom: 30px;
+        margin-top: 33px;
+    }
+}
+.about{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-left: 30px;
+}
+.about img{
+    width: 35px;
+    position:absolute; 
+    top:-15px;
+    left:45%;
+}
+.about p{
+    position: relative;
+    background: lightpink;
+    box-shadow: -3px 2px 2px 2px rgba(0, 0, 0, 0.3);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 30px;
+    padding: 20px;
 }
 
+#comments{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin:0 20px;
+    background-color: lightcoral;
+    height: 220px;
+    padding: 0 20px;
+    position: relative;
+    box-shadow: -3px 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+#comments img{
+    width: 35px;
+    position:absolute; 
+    top:-15px;
+    left:45%;
+}
 #comments input{
     min-height: 40px;
-    min-width: 60%;
+    min-width: 100%;
     margin-bottom: 20px;
     padding: 10px;
     border: none;
     outline: none;
     overflow-wrap: break-word;
     transition: all .4s;
+    box-shadow: -3px 3px 2px 3px rgba(0, 0, 0, 0.3);
 }
 #comments input:focus{
     border: none;
     outline: none;
-    box-shadow: 3px 3px 3px 3px inset rgba(0, 0, 0, 0.1);
-    background-color: lightgray;
+    box-shadow: -3px 3px 3px 3px inset rgba(0, 0, 0, 0.4);
     border-radius: 10px;
     transition: all .2s;
 }
@@ -197,12 +253,13 @@ body{
     color: white;
     background-color: green;
     cursor: pointer;
+    box-shadow: -1px 1px 2px 2px rgba(0, 0, 0, 0.3);
 }
 #comments .btn:hover{
     background-color: rgb(1, 83, 1);
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    
 }
-#comments .fa-xmark{
+.fa-xmark{
     position: absolute;
     top: 20px;
     left: 20px;
@@ -211,7 +268,7 @@ body{
     color: gray;
 
 }
-#comments .fa-xmark:hover{
+.fa-xmark:hover{
     color:black;
     transition: all .3s;
 }

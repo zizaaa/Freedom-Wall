@@ -41,17 +41,19 @@ if(stlData!=null){
             stl();
             window.location.reload(true);
         }else{
-            const form = document.getElementById('comments');
-            form.style = 'z-index:2; transform: scale(1);';
+            const form = document.getElementById('formContainer');
+            form.style = 'z-index:4; transform: scale(1);';
         }
         
     });
+
+//save to local storage
 const stl=()=>{
     JSON.stringify(localStorage.setItem('bool',bool));
 };
 
 const saveComments = (userComments,usernickName)=>{
-
+    //date picker
     function formatAMPM(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -63,7 +65,7 @@ const saveComments = (userComments,usernickName)=>{
         return strTime;
     }
         let time=formatAMPM(new Date);
-
+    //push data to database
     comments.push({
         comment:userComments,
         nickname:usernickName,
@@ -71,7 +73,7 @@ const saveComments = (userComments,usernickName)=>{
     });
 };
 
-//limmiter
+//limit the post
 comments.on("value",(element)=>{
     let c=0;
     let limit = 100;
@@ -104,10 +106,8 @@ const main=()=>{
             let positionT = positionTop + 'px';
             let positionL = positionLeft + '%';
             //color picker
-            let backgroundColor = ['lightcoral','lightblue','lightpink','lightskyblue','lightseagreen'];
+            let backgroundColor = ['lightcoral','lightblue','lightpink','lightskyblue','lightseagreen','lightsalmon','lightgreen','rgb(36, 214, 214)'];
             let randomColorPicker = Math.floor(Math.random()*backgroundColor.length);
-            let pinColor = ['darkblue','darkgreen','darkred','yellow','black'];
-            let randompinColorPicker = Math.floor(Math.random()*pinColor.length);
             //degree picker
             let deg=[];
             let positiveDeg = Math.floor(Math.random()*30);
@@ -118,17 +118,13 @@ const main=()=>{
             let rotdeg = deg[picker]+'deg';
             deg=[];
 
+
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
             commentBox.style = `transform: rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
-            // let index = 0;
+            //unhide post
             commentBox.addEventListener('click',(e)=>{
-                // if(index === 2){
-                // index--;
-                // }else{
-                //     index++;
-                // }
                 commentBox.style = `z-index:2;transform:rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; margin:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             });
             commentBox.addEventListener('mouseleave',(e)=>{
@@ -140,7 +136,6 @@ const main=()=>{
             icon.setAttribute('src','img/pin.png');
             icon.style = 'width: 35px;';
             iconDev.appendChild(icon);
-            // icon.innerHTML = '<i class="fa-solid fa-map-pin"></i>';
             iconDev.style = `position:absolute; top:-15px;left:45%;`;
             
             const comment = document.createElement('p');
@@ -198,11 +193,11 @@ const timer=()=>{
 //open the form
 if(bool === true || bool === 'true'){
     addBtn.addEventListener('click',()=>{
-        const form = document.getElementById('comments');
+        const form = document.getElementById('formContainer');
         form.style = 'z-index:4; transform: scale(1);';
     });
 }else if(bool === false||bool==='false'){
-    const form = document.getElementById('comments');
+    const form = document.getElementById('formContainer');
     form.style = 'z-index:0; transform: scale(0);';
     document.getElementById('addBtn').disabled=true;
     timer();
@@ -210,6 +205,6 @@ if(bool === true || bool === 'true'){
 
 //close form
 let exit = document.getElementById('exit').addEventListener('click',()=>{
-    const form = document.getElementById('comments');
+    const form = document.getElementById('formContainer');
     form.style = 'z-index:0; transform: scale(0);';
 });
