@@ -118,11 +118,16 @@ const main=()=>{
             let rotdeg = deg[picker]+'deg';
             deg=[];
 
-
+            //container
+            // const commentBoxContainer = document.createElement('div');
+            // commentBoxContainer.setAttribute('id','commentBoxContainer');
+            // commentBoxContainer.classList.add('commentBoxContainer');
+            // commentBoxContainer.style = `height:auto;transform: rotate(${rotdeg}); position: absolute; top:${positionT}; left:${positionL}; max-width: 15rem; `;
+            //comment
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
-            commentBox.style = `transform: rotate(${rotdeg});cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+            commentBox.style = `transform: rotate(${rotdeg}); position: absolute; top:${positionT}; left:${positionL};cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             //unhide post
             commentBox.addEventListener('click',(e)=>{
                 commentBox.style = `transition:all .8s;z-index:2;cursor:pointer; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
@@ -148,21 +153,53 @@ const main=()=>{
             author.innerText = '-'+datas.nickname;
             author.style = 'margin-top:5px;';
 
+            const secContainer = document.createElement('div');
+            secContainer.style = 'display:flex; justify-content:space-between; align-items:center;';
+            secContainer.classList.add('secContainer');
+            secContainer.setAttribute('id','secContainer');
+
             const time = document.createElement('p');
             time.innerHTML = datas.time;
             time.style =  'font-size:10px; margin-top:20px;';
 
+            const replyBtn = document.createElement('button');
+            replyBtn.innerText = 'reply';
+            replyBtn.style = 'font-size:10px; margin-top:20px; border:none;background-color:transparent; cursor:pointer;';
+            // replyBtn.setAttribute('onclick','reply()');
+            replyBtn.addEventListener('click',(e)=>{
+                alert('Please wait for the next update. Thankyou\n\n-Dev');
+                // let reply = document.createElement('div');
+                // reply.style = 'background-color:green; position:absolute; bottom: -150px;left: 5px; right:5px;overflow-wrap: break-word; min-height:10rem; padding:20px;';
+                // let replyText = document.createElement('p');
+                // replyText.innerText = 'Hello this is reply';
+                // let replyAuthor = document.createElement('p');
+                // replyAuthor.innerText = '-ziza';
+                // reply.appendChild(replyText);
+                // reply.appendChild(replyAuthor);
+                // commentBox.appendChild(reply);
+                // console.log('reply');
+            });
+
+            // commentContainer.appendChild(commentBoxContainer);
             commentContainer.appendChild(commentBox);
+            // commentBoxContainer.appendChild(commentBox);
             commentBox.appendChild(iconDev);
             commentBox.appendChild(comment);
             commentBox.appendChild(author);
-            commentBox.appendChild(time);
+            commentBox.appendChild(secContainer);
+            secContainer.appendChild(time);
+            secContainer.appendChild(replyBtn);
     });
 
 }); 
 };
 main();
 
+// const reply=()=>{
+    
+//     let commentBox = document.querySelector('.commentBox');
+//     console.log(commentBox);
+// };
 //coutdown
 const timer=()=>{
     if(localStorage.getItem("count_timer")){
