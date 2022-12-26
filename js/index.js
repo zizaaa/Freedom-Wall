@@ -127,6 +127,7 @@ const main=()=>{
             const commentBox = document.createElement('div');
             commentBox.classList.add('comment-box');
             commentBox.setAttribute('class','commentBox');
+            commentBox.setAttribute('value',`${element.key}`);
             commentBox.style = `transform: rotate(${rotdeg}); position: absolute; top:${positionT}; left:${positionL};cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
             //unhide post
             commentBox.addEventListener('click',(e)=>{
@@ -178,8 +179,14 @@ const main=()=>{
                 // reply.appendChild(replyAuthor);
                 // commentBox.appendChild(reply);
                 // console.log('reply');
+                // -NKCrTzTzJgsg_gUTKAT
+                //reference your database
+                // let replys = firebase.database().ref('/Freedom Wall/'+'NKCrTzTzJgsg_gUTKAT');
+                // replys.push({
+                //     reply:'hello'
+                // });
             });
-
+            
             // commentContainer.appendChild(commentBoxContainer);
             commentContainer.appendChild(commentBox);
             // commentBoxContainer.appendChild(commentBox);
@@ -231,7 +238,9 @@ const timer=()=>{
 if(bool === true || bool === 'true'){
     addBtn.addEventListener('click',()=>{
         const form = document.getElementById('formContainer');
-        form.style = 'z-index:4; transform: scale(1);';
+        // form.style = 'z-index:4; transform: scale(1);';
+        form.style = 'z-index:0; transform: scale(0);';
+        alert('Our website is under maintenance. Please comeback later.\n\n-Dev');
     });
 }else if(bool === false||bool==='false'){
     const form = document.getElementById('formContainer');
