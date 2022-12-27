@@ -55,13 +55,16 @@ const stl=()=>{
 const saveComments = (userComments,usernickName)=>{
     //date picker
     function formatAMPM(date) {
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'pm' : 'am';
-        hours = hours % 12;
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let ampm = hours >= 12 ? 'pm' : 'am';
+        let = hours % 12;
+        let day = date.getDate();
+        let month = date.getMonth()+1;
+        let year = date.getFullYear();
         hours = hours ? hours : 12; // the hour '0' should be '12'
         minutes = minutes < 10 ? '0'+minutes : minutes;
-        var strTime = hours + ':' + minutes + ' ' + ampm;
+        var strTime = hours + ':' + minutes + ' ' + ampm + ' ' + month+'/'+day+'/'+year;
         return strTime;
     }
         let time=formatAMPM(new Date);
@@ -134,7 +137,7 @@ const main=()=>{
                 commentBox.style = `cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
                 //unhide post
                 commentBoxContainer.addEventListener('click',(e)=>{
-                    commentBoxContainer.style = `display:flex; flex-direction:column;align-items: center; justify-content: center;transition:all .8s; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};`;
+                    commentBoxContainer.style = `z-index:2; display:flex; flex-direction:column;align-items: center; justify-content: center;transition:all .8s; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};`;
                     commentBox.style = `overflow-wrap: break-word;max-width: 15rem; background-color:${backgroundColor[randomColorPicker]};z-index:2;cursor:pointer; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
                     // document.getElementById('replyContainer').style = 'z-index:2; cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);';
                     
@@ -174,7 +177,7 @@ const main=()=>{
                 let key = element.key;
                 const replyBtn = document.createElement('button');
                 replyBtn.innerText = 'reply';
-                replyBtn.style = 'font-size:10px; margin-top:20px; border:none;background-color:transparent; cursor:pointer;';
+                replyBtn.style = 'margin-left:20px;font-size:10px; margin-top:20px; border:none;background-color:transparent; cursor:pointer;';
                 replyBtn.setAttribute('id',key);
                 replyBtn.classList.add('replyBtn');
                 
@@ -292,7 +295,12 @@ main();
                                 hours = hours % 12;
                                 hours = hours ? hours : 12; // the hour '0' should be '12'
                                 minutes = minutes < 10 ? '0'+minutes : minutes;
-                                var strTime = hours + ':' + minutes + ' ' + ampm;
+                                let day = date.getDate();
+                                let month = date.getMonth()+1;
+                                let year = date.getFullYear();
+                                hours = hours ? hours : 12; // the hour '0' should be '12'
+                                minutes = minutes < 10 ? '0'+minutes : minutes;
+                                var strTime = hours + ':' + minutes + ' ' + ampm + ' ' + month+'/'+day+'/'+year;
                                 return strTime;
                             }
                             let time=formatAMPM(new Date);
@@ -359,3 +367,9 @@ let exitReply = document.getElementById('replyExit').addEventListener('click',()
     let dc = false;
     sessionStorage.setItem('dc',dc);
 });
+
+
+//announcement
+const announce=()=>{
+    alert('No announcement yet');
+};

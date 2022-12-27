@@ -1,0 +1,163 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --Background-color:#ecf0f3;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+body{
+    /* background-color: var(--Background-color); */
+    background:url('https://wallpapercave.com/wp/wp4892340.jpg') ;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgb(14,40,63);
+    /* overflow-y: scroll; */
+    position: relative;
+
+}
+
+.container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+form{
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.8px);
+    -webkit-backdrop-filter: blur(6.8px);
+    display: flex;
+    border: none;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    height: 500px;
+}
+@media(max-width:800px){
+    form{
+        width: 80%;
+    }
+}
+@media(max-width:600px){
+    form{
+        width: 90%;
+    }
+}
+@media(max-width:500px){
+    form{
+        width: 100%;
+        height: 100vh;
+    }
+    .container form .name{
+        width: 80%;
+    }
+    .container form .email{
+        width: 80%;
+    }
+    .container form .message{
+        max-width: 80%;
+        min-width: 80%;
+    }
+}
+@media(max-width:310px){
+    form h1{
+        padding-left: 20px;
+        padding-right: 20px;
+        
+    }
+    
+}
+/* @media(max-width:450px){
+    form .name{
+        width: 80%;
+    }
+} */
+form h1{
+    padding-bottom: 20px;
+    color: rgb(14,40,63) ;
+    font-size: 2.7rem;
+}
+
+form .name,.email{
+    width: 50%;
+    margin-bottom: 20px;
+    height: 2.5rem;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    background-color: rgb(213, 223, 231);
+    box-shadow: 2px 2px 2px 2px  rgba(0, 0, 0, 0.2);
+    transition: all 1s;
+}
+form .name:focus,.email:focus,.message:focus{
+    transition: all 1s;
+    box-shadow: 2px 2px 3px 4px inset rgba(0, 0, 0, 0.2);
+}
+
+form .message{
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    width: 50%;
+    max-height: 10rem;
+    min-height: 10rem;
+    margin-bottom: 20px;
+    background-color: rgb(213, 223, 231);
+    box-shadow: 2px 2px 2px 2px  rgba(0, 0, 0, 0.2);
+    transition: all 1s;
+}
+form .submit{
+    padding: 9px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(14,40,63);
+    color: white;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 2px  rgba(0, 0, 0, 0.2);
+}
+form .submit:hover{
+    background-color: rgb(27, 62, 92);
+}
+
+.fa-arrow-left-long{
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    color: #ecf0f3;
+    font-size: 25px;
+    z-index: 3;
+}
+
+.thanksmessage{
+    position: absolute;
+    z-index: 2;
+    transform: scale(0);
+    background-color: rgb(14,40,63) ;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.thanksmessage h1{
+    color: white;
+    padding: 30px;
+}

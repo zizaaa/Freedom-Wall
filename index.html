@@ -52,13 +52,27 @@
 <div class="comments-container" id="commentsContainer">
     <!-- comments here -->
 </div>
-<button id="addBtn">
+
+<footer class="footer">
+    <a href="report.html"><i class="fa-regular fa-flag ico"></i></a>
+        
+    <div class="add">
+        <i class="fa-regular fa-plus ico" id="addBtn"></i>
+    </div>
+
+    <a href="#" onclick="announce()"><i class="fa-solid fa-scroll ico"></i></a>
+    
+</footer>
+<!-- <button id="addBtn">
     <i class="fa-solid fa-plus"></i>
-</button>
+</button> -->
 <div class="countdown">
     <div id="countdown"></div>
 </div>
-    <div class="numberList"><span id="numberofComments">0</span> notes left</div>
+<div class="numberList">
+    <span id="numberofComments">0</span> 
+    notes left
+</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
     <script src="js/index.js"></script>
 </body>
