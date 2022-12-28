@@ -183,7 +183,7 @@ const main=()=>{
                 
                 const iconDev = document.createElement('div');
                 const icon = document.createElement('img');
-                icon.setAttribute('src','img/pin.png');
+                icon.setAttribute('src','img/amapin.png');
                 icon.style = 'width: 35px;';
                 iconDev.appendChild(icon);
                 iconDev.style = `position:absolute; top:-15px;left:45%;`;
@@ -357,8 +357,7 @@ main();
                             }
                             let time=formatAMPM(new Date);
                             replys.push({
-                                // reply:'test',
-                                // author:'dev'
+                    
                                 replyText:replyTextValue,
                                 author:replynicknameValue,
                                 time:time,
@@ -424,7 +423,7 @@ let exitReply = document.getElementById('replyExit').addEventListener('click',()
 
 //reference your database
 let report = firebase.database().ref('/Reported Notes/');
-
+//report form
 let reportText = document.getElementById('reportText');
 document.getElementById('reportForm').addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -438,7 +437,7 @@ document.getElementById('reportForm').addEventListener('submit',(e)=>{
         reportForm.style = 'transform:scale(1); z-index:4;';
     }
 });
-
+//push reported Ip
 const pushReportedNotes=(reportTextValue)=>{
     report.push({
         Reason:reportTextValue,
