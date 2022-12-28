@@ -36,6 +36,15 @@
             <button type="submit" class="replybtn" id="replybtn" >Reply</button>
         </form>
     </div>
+    <!-- report -->
+    <div class="reportformcontainer" id="reportformcontainer">
+        <form action="" id="reportForm">
+            <i class="fa-solid fa-xmark" id="reportExit"></i>
+            <!-- <img src="img/pin.png" alt="pin"> -->
+            <textarea name="reportText" id="reportText"placeholder="Why do you want to report this note?"></textarea>
+            <button type="submit" class="reportbtn" id="report" >Submit</button>
+        </form>
+    </div>
 
 
 <!-- header -->
@@ -70,10 +79,11 @@
     <div id="countdown"></div>
 </div>
 <div class="numberList">
-    <span id="numberofComments">0</span> 
+    <span id="numberofComments"></span> 
     notes left
 </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>

@@ -52,29 +52,45 @@ const stl=()=>{
     JSON.stringify(localStorage.setItem('bool',bool));
 };
 
+
 const saveComments = (userComments,usernickName)=>{
-    //date picker
-    function formatAMPM(date) {
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        let ampm = hours >= 12 ? 'pm' : 'am';
-        let = hours % 12;
+        //date picker
+        function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
         let day = date.getDate();
         let month = date.getMonth()+1;
         let year = date.getFullYear();
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+minutes : minutes;
+        // hours = hours ? hours : 12; // the hour '0' should be '12'
+        // minutes = minutes < 10 ? '0'+minutes : minutes;
         var strTime = hours + ':' + minutes + ' ' + ampm + ' ' + month+'/'+day+'/'+year;
         return strTime;
     }
-        let time=formatAMPM(new Date);
+    let time=formatAMPM(new Date);
+
+
     //push data to database
     comments.push({
         comment:userComments,
         nickname:usernickName,
         time:time,
+        ip:localStorage.getItem('userIp')
     });
+    
 };
+    //generate API
+        $.getJSON("https://api.ipify.org?format=json", genIP=(data)=> {
+        // Setting text of element P with id gfg
+        let ip = data.ip;
+        const saveIP=()=>{
+            localStorage.setItem('userIp',ip);
+        };
+        saveIP();
+        });
 
 //limit the post
 comments.on("value",(element)=>{
@@ -129,22 +145,40 @@ const main=()=>{
                 commentBoxContainer.setAttribute('id','commentBoxContainer');
                 commentBoxContainer.classList.add('commentBoxContainer');
                 commentBoxContainer.style = `display:flex; flex-direction:column;align-items: center;justify-content: center; height:auto;transform: rotate(${rotdeg}); position: absolute; top:${positionT}; left:${positionL}; max-width: 15rem; `;
-                // comment
+                
+                
+                // reportBtn
+                const reportBtn = document.createElement('button');
+                reportBtn.style = 'font-size:10px;cursor:pointer;position:absolute; background-color:transparent;border:none; color:red; right:10px; top:10px;';
+                reportBtn.innerHTML = 'report';
+                reportBtn.setAttribute('id',datas.ip);
+                reportBtn.setAttribute('value', datas.comment);
+                reportBtn.addEventListener('click',(e)=>{
+                    let ip = e.target.id;
+                    let reportedMessage = e.target.value;
+                    localStorage.setItem('ReportedMessage',reportedMessage);
+                    localStorage.setItem('ReportedIp',ip);
+                    let reportForm = document.getElementById('reportformcontainer');
+                    reportForm.style = 'transform:scale(1); z-index:4;';
+                });
+
+
+                //comment
                 const commentBox = document.createElement('div');
                 commentBox.classList.add('comment-box');
                 commentBox.setAttribute('class','commentBox');
                 commentBox.setAttribute('value',`${element.key}`);
-                commentBox.style = `cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+                commentBox.style = `position:relative;cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:40px 20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
                 //unhide post
                 commentBoxContainer.addEventListener('click',(e)=>{
                     commentBoxContainer.style = `z-index:2; display:flex; flex-direction:column;align-items: center; justify-content: center;transition:all .8s; position: absolute; max-width: 15rem; top:${positionT}; left:${positionL};`;
-                    commentBox.style = `overflow-wrap: break-word;max-width: 15rem; background-color:${backgroundColor[randomColorPicker]};z-index:2;cursor:pointer; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+                    commentBox.style = `overflow-wrap: break-word;max-width: 15rem; background-color:${backgroundColor[randomColorPicker]};z-index:2;cursor:pointer;  padding:40px 20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
                     // document.getElementById('replyContainer').style = 'z-index:2; cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);';
                     
                 });
                 commentBoxContainer.addEventListener('mouseleave',(e)=>{
                     commentBoxContainer.style = `display:flex; flex-direction:column;align-items: center; justify-content: center;max-width: 15rem; top:${positionT}; left:${positionL}; position: absolute;transform:rotate(${rotdeg}); z-index:0;transition:all .8s;`;
-                    commentBox.style = `cursor:pointer;  max-width: 15rem;  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+                    commentBox.style = `cursor:pointer;  max-width: 15rem;  overflow-wrap: break-word; background-color:${backgroundColor[randomColorPicker]};  padding:40px 20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
                 });
                 
                 const iconDev = document.createElement('div');
@@ -209,6 +243,7 @@ const main=()=>{
                 commentContainer.appendChild(commentBoxContainer);
                 // commentContainer.appendChild(commentBox);
                 commentBoxContainer.appendChild(commentBox);
+                commentBox.appendChild(reportBtn);
                 commentBox.appendChild(iconDev);
                 commentBox.appendChild(comment);
                 commentBox.appendChild(author);
@@ -227,13 +262,29 @@ const main=()=>{
 
 
                         let replyDatas = e.val();
+
                         const connector = document.createElement('div');
                         connector.style = 'width:1px; height:15px; position:relative; border:1px dashed white;';
                         connector.classList.add('connector');
                         connector.setAttribute('id','connector');
                         
+                        const reportBtn = document.createElement('button');
+                        reportBtn.style = 'font-size:10px;position:absolute; background-color:transparent;border:none; color:red; right:10px;top:10px; opacity:0.8; cursor:pointer;';
+                        reportBtn.innerHTML = 'report';
+                        reportBtn.setAttribute('id',replyDatas.ip);
+                        reportBtn.setAttribute('value', replyDatas.replyText);
+                        reportBtn.addEventListener('click',(e)=>{
+                            let ip = e.target.id;
+                            let reportedMessage = e.target.value;
+
+                            localStorage.setItem('ReportedMessage',reportedMessage);
+                            localStorage.setItem('ReportedIp',ip);
+                            let reportForm = document.getElementById('reportformcontainer');
+                            reportForm.style = 'transform:scale(1); z-index:4;';
+                        });
+
                         const replyContainer = document.createElement('div');
-                        replyContainer.style = `cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; background-color:${gencol[gencolpick]}; padding:20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
+                        replyContainer.style = `position:relative;cursor:pointer;max-width: 15rem;  overflow-wrap: break-word; background-color:${gencol[gencolpick]}; padding:40px 20px; box-shadow:-2px 2px 2px 2px rgba(0, 0, 0, 0.5);`;
                         replyContainer.setAttribute('id','replyContainer');
                         const replyText = document.createElement('p');
                         replyText.innerHTML = replyDatas.replyText;
@@ -244,6 +295,7 @@ const main=()=>{
                         time.style =  'font-size:10px; margin-top:20px;';
                         commentBoxContainer.appendChild(connector);
                         commentBoxContainer.appendChild(replyContainer);
+                        replyContainer.appendChild(reportBtn);
                         replyContainer.appendChild(replyText);
                         replyContainer.appendChild(replyNickName);
                         replyContainer.appendChild(time);
@@ -298,8 +350,8 @@ main();
                                 let day = date.getDate();
                                 let month = date.getMonth()+1;
                                 let year = date.getFullYear();
-                                hours = hours ? hours : 12; // the hour '0' should be '12'
-                                minutes = minutes < 10 ? '0'+minutes : minutes;
+                                // hours = hours ? hours : 12; // the hour '0' should be '12'
+                                // minutes = minutes < 10 ? '0'+minutes : minutes;
                                 var strTime = hours + ':' + minutes + ' ' + ampm + ' ' + month+'/'+day+'/'+year;
                                 return strTime;
                             }
@@ -309,7 +361,8 @@ main();
                                 // author:'dev'
                                 replyText:replyTextValue,
                                 author:replynicknameValue,
-                                time:time
+                                time:time,
+                                ip:localStorage.getItem('userIp')
                             });
                         };
 
@@ -366,6 +419,39 @@ let exitReply = document.getElementById('replyExit').addEventListener('click',()
     replyContainer.style = 'z-index:0; transform:scale(0);';
     let dc = false;
     sessionStorage.setItem('dc',dc);
+});
+
+
+//reference your database
+let report = firebase.database().ref('/Reported Notes/');
+
+let reportText = document.getElementById('reportText');
+document.getElementById('reportForm').addEventListener('submit',(e)=>{
+    e.preventDefault();
+
+    let reportTextValue = reportText.value;
+    if(reportTextValue.length > 0){
+        pushReportedNotes(reportTextValue);
+        window.location.reload(true);
+    }else{
+        let reportForm = document.getElementById('reportformcontainer');
+        reportForm.style = 'transform:scale(1); z-index:4;';
+    }
+});
+
+const pushReportedNotes=(reportTextValue)=>{
+    report.push({
+        Reason:reportTextValue,
+        ReportedIp:localStorage.getItem('ReportedIp'),
+        UserIp:localStorage.getItem('userIp'),
+        ReportedMessage:localStorage.getItem('ReportedMessage')
+
+    });
+};
+//close reportform
+let exitReport = document.getElementById('reportExit').addEventListener('click',()=>{
+    let reportForm = document.getElementById('reportformcontainer');
+    reportForm.style = 'transform:scale(0); z-index:0;';
 });
 
 

@@ -12,7 +12,7 @@ const firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
 
 //reference your database
-let reports = firebase.database().ref('Report Message');
+let reports = firebase.database().ref('Message');
 
 
 const username = document.getElementById('name');

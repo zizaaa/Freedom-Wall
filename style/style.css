@@ -20,9 +20,10 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     background-color: rgb(14,40,63);
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
     overflow: hidden;
     position: relative;
+
 }
 /* width */
 ::-webkit-scrollbar {
@@ -478,6 +479,59 @@ body{
  right: 5px;
 cursor: pointer;
 }
+
+.reportformcontainer{
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.8px);
+    -webkit-backdrop-filter: blur(6.8px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    transform: scale(0);
+}
+.reportformcontainer #reportForm{
+    background-color: lightpink;
+    height: 15rem;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.reportformcontainer #reportForm #reportText{
+    max-width: 250px;
+    min-width: 200px;
+    max-height: 10rem;
+    min-height: 5rem;
+    padding: 5px;
+    margin-bottom: 10px;
+    outline: none;
+}
+.reportformcontainer #reportForm #report{
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: rgba(250, 0, 0, 0.8);
+    cursor: pointer;
+
+}
+#reportExit{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
 
 /* footer */
 footer{
