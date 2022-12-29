@@ -82,6 +82,22 @@ const saveComments = (userComments,usernickName)=>{
     });
     
 };
+    //save user IP to database
+    let isSave;
+    if(localStorage.getItem('isSave')){
+       isSave = localStorage.getItem('isSave');
+    }else{
+        isSave = true;
+    }
+
+    if(isSave === true ||isSave === 'true'){
+        let userIP = firebase.database().ref('/UserIP/');
+        userIP.push({
+            IP:localStorage.getItem('userIp')
+        });
+        isSave=false;
+        localStorage.setItem('isSave',isSave);
+    }
     //generate API
         $.getJSON("https://api.ipify.org?format=json", genIP=(data)=> {
         // Setting text of element P with id gfg
@@ -423,6 +439,7 @@ let exitReply = document.getElementById('replyExit').addEventListener('click',()
 
 //reference your database
 let report = firebase.database().ref('/Reported Notes/');
+
 //report form
 let reportText = document.getElementById('reportText');
 document.getElementById('reportForm').addEventListener('submit',(e)=>{
@@ -439,14 +456,33 @@ document.getElementById('reportForm').addEventListener('submit',(e)=>{
 });
 //push reported Ip
 const pushReportedNotes=(reportTextValue)=>{
+         //date picker
+        function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        let day = date.getDate();
+        let month = date.getMonth()+1;
+        let year = date.getFullYear();
+        // hours = hours ? hours : 12; // the hour '0' should be '12'
+        // minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm + ' ' + month+'/'+day+'/'+year;
+        return strTime;
+    }
+    let time=formatAMPM(new Date);
     report.push({
         Reason:reportTextValue,
         ReportedIp:localStorage.getItem('ReportedIp'),
         UserIp:localStorage.getItem('userIp'),
-        ReportedMessage:localStorage.getItem('ReportedMessage')
+        ReportedMessage:localStorage.getItem('ReportedMessage'),
+        Time:time
 
     });
 };
+
 //close reportform
 let exitReport = document.getElementById('reportExit').addEventListener('click',()=>{
     let reportForm = document.getElementById('reportformcontainer');

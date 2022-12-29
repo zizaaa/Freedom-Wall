@@ -23,6 +23,7 @@ body{
     overflow-y: scroll;
     overflow: hidden;
     position: relative;
+    height: 100vh;
 
 }
 /* width */
