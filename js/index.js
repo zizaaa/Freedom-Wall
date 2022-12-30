@@ -97,11 +97,25 @@ const saveComments = (userComments,usernickName)=>{
     
 };
     //save user IP to database
+    let tf;
+    let saved = localStorage.getItem('tf');
+    if( saved!=null){
+        isSave = saved;
+        console.log('f');
+    }else{
+        isSave = true;
+        console.log(' t');
+    }
+    if(isSave === true){
         let userIP = firebase.database().ref('/UserIP/');
         userIP.push({
             IP:localStorage.getItem('userIp')
         });
-        
+        tf = false;
+        localStorage.setItem('tf',tf);
+    }else{
+        console.log(' l');
+    }
     //generate API
         $.getJSON("https://api.ipify.org?format=json", genIP=(data)=> {
         // Setting text of element P with id gfg
