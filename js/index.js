@@ -1,3 +1,17 @@
+//admin
+document.querySelector('.partylist-logo-container').addEventListener('click',()=>{
+    let psw = 'AMACCNAGACOVIDPARTYLIST2022';
+    let pass = prompt('Please Password');
+    if(pass === psw){
+        let al = confirm('Access Granted');
+        if(al){
+        document.querySelector('.partylist-logo-container').setAttribute('href','Admin Side/adminIndex.html');
+        }
+    }else{
+        alert('Access Denied');
+    }
+});
+
 const addBtn = document.getElementById('addBtn');
 
 let comment = document.getElementById('comment');
