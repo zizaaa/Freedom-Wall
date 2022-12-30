@@ -5,7 +5,7 @@ document.querySelector('.partylist-logo-container').addEventListener('click',()=
     if(pass === psw){
         let al = confirm('Access Granted');
         if(al){
-        document.querySelector('.partylist-logo-container').setAttribute('href','Admin Side/adminIndex.html');
+        document.querySelector('.partylist-logo-container').setAttribute('href','AdminSide/adminIndex.html');
         }
     }else{
         alert('Access Denied');
