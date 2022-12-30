@@ -83,21 +83,11 @@ const saveComments = (userComments,usernickName)=>{
     
 };
     //save user IP to database
-    let isSave;
-    if(localStorage.getItem('isSave')){
-       isSave = localStorage.getItem('isSave');
-    }else{
-        isSave = true;
-    }
-
-    if(isSave === true ||isSave === 'true'){
         let userIP = firebase.database().ref('/UserIP/');
         userIP.push({
             IP:localStorage.getItem('userIp')
         });
-        isSave=false;
-        localStorage.setItem('isSave',isSave);
-    }
+        
     //generate API
         $.getJSON("https://api.ipify.org?format=json", genIP=(data)=> {
         // Setting text of element P with id gfg
