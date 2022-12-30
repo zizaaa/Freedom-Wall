@@ -100,13 +100,36 @@ const saveComments = (userComments,usernickName)=>{
     let tf;
     let saved = localStorage.getItem('tf');
     if( saved!=null){
-        isSave = saved;
-        console.log('f');
+        tf = saved;
     }else{
-        isSave = true;
-        console.log(' t');
+        tf = true;
     }
-    if(isSave === true){
+        //check ip if still in database
+        let userIP = firebase.database().ref('/UserIP/');
+        userIP.on("value",(IP)=>{
+            let arr=['192.168.1.1'];
+            IP.forEach(ips=>{
+                let ipData = ips.val();
+                arr.push(ipData.IP);
+
+            });
+            setTimeout(()=>{
+                console.log(arr);
+                for(let i = 0;i<arr.length;i++){
+                if(arr[i]===localStorage.getItem('userIp')){
+                    console.log('true');
+                    tf = false;
+                    localStorage.setItem('tf',tf);
+                }else{
+                    console.log('false');
+                    tf = true;
+                    localStorage.setItem('tf',tf);
+                }
+                console.log(localStorage.getItem('userIp'));
+                }
+            },1000);
+        });
+    if(tf === true || tf ==='true'){
         let userIP = firebase.database().ref('/UserIP/');
         userIP.push({
             IP:localStorage.getItem('userIp')
@@ -114,8 +137,10 @@ const saveComments = (userComments,usernickName)=>{
         tf = false;
         localStorage.setItem('tf',tf);
     }else{
-        console.log(' l');
+        console.log('l');
     }
+
+
     //generate API
         $.getJSON("https://api.ipify.org?format=json", genIP=(data)=> {
         // Setting text of element P with id gfg
