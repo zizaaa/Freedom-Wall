@@ -9,6 +9,8 @@ document.querySelector('.notes').addEventListener('click',()=>{
 document.querySelector('.banned').style='text-decoration:none;';
 document.getElementById('ip').style='transform:scale(0);z-index:0;';
 document.querySelector('.ip').style='text-decoration:none;';
+document.getElementById('message').style='transform:scale(0);z-index:0;';
+document.querySelector('.message').style='text-decoration:none;';
 });
 document.querySelector('.report').addEventListener('click',()=>{
   document.getElementById('notes').style='transform:scale(0);z-index:0;';
@@ -21,6 +23,8 @@ document.getElementById('banned').style='transform:scale(0);z-index:0;';
 document.querySelector('.banned').style='text-decoration:none;';
 document.getElementById('ip').style='transform:scale(0);z-index:0;';
 document.querySelector('.ip').style='text-decoration:none;';
+document.getElementById('message').style='transform:scale(0);z-index:0;';
+document.querySelector('.message').style='text-decoration:none;';
 });
 document.querySelector('.warning').addEventListener('click',()=>{
 document.getElementById('warning').style='transform:scale(1);z-index:2;';
@@ -33,6 +37,8 @@ document.getElementById('banned').style='transform:scale(0);z-index:0;';
 document.querySelector('.banned').style='text-decoration:none;';
 document.getElementById('ip').style='transform:scale(0);z-index:0;';
 document.querySelector('.ip').style='text-decoration:none;';
+document.getElementById('message').style='transform:scale(0);z-index:0;';
+document.querySelector('.message').style='text-decoration:none;';
 });
 document.querySelector('.banned').addEventListener('click',()=>{
   document.getElementById('banned').style='transform:scale(1);z-index:2;';
@@ -45,10 +51,28 @@ document.getElementById('warning').style='transform:scale(0);z-index:0;';
 document.querySelector('.warning').style='text-decoration:none;';
 document.getElementById('ip').style='transform:scale(0);z-index:0;';
 document.querySelector('.ip').style='text-decoration:none;';
+document.getElementById('message').style='transform:scale(0);z-index:0;';
+document.querySelector('.message').style='text-decoration:none;';
 });
 document.querySelector('.ip').addEventListener('click',()=>{
   document.getElementById('ip').style='transform:scale(1);z-index:2;';
   document.querySelector('.ip').style='text-decoration:underline;';
+  document.getElementById('banned').style='transform:scale(0);z-index:0;';
+  document.querySelector('.banned').style='text-decoration:none;';
+  document.getElementById('notes').style='transform:scale(0);z-index:0;';
+document.querySelector('.notes').style='text-decoration:none;';
+document.getElementById('report').style='transform:scale(0);z-index:0;';
+document.querySelector('.report').style='text-decoration:none;';
+document.getElementById('warning').style='transform:scale(0);z-index:0;';
+document.querySelector('.warning').style='text-decoration:none;';
+document.getElementById('message').style='transform:scale(0);z-index:0;';
+document.querySelector('.message').style='text-decoration:none;';
+});
+document.querySelector('.message').addEventListener('click',()=>{
+  document.getElementById('message').style='transform:scale(1);z-index:2;';
+  document.querySelector('.message').style='text-decoration:underline;';
+  document.getElementById('ip').style='transform:scale(0);z-index:0;';
+  document.querySelector('.ip').style='text-decoration:none;';
   document.getElementById('banned').style='transform:scale(0);z-index:0;';
   document.querySelector('.banned').style='text-decoration:none;';
   document.getElementById('notes').style='transform:scale(0);z-index:0;';
@@ -237,7 +261,7 @@ report.on("value",(adminReport)=>{
               //delete
               let report = firebase.database().ref(`/Reported Notes/${key}`);
               report.remove();
-              // window.location.reload(true);
+              window.location.reload(true);
             }
           });
 
@@ -262,7 +286,7 @@ report.on("value",(adminReport)=>{
       
                   let report = firebase.database().ref(`/Reported Notes/${key}`);
                   report.remove();
-                  // window.location.reload(true);
+                  window.location.reload(true);
                 }
           });
   
@@ -334,7 +358,7 @@ warn.on("value",(warnAd)=>{
             let prompt = confirm('Are you sure to forgive this IP Address?');
             if(prompt){
               warning.remove();
-              // window.location.reload(true);
+              window.location.reload(true);
             }
           });
 
@@ -355,7 +379,7 @@ warn.on("value",(warnAd)=>{
               
               let warning = firebase.database().ref(`/Warning IP/${key}`);
               warning.remove();
-              // window.location.reload(true);
+              window.location.reload(true);
             }
           });
           document.querySelector('.warning-container').appendChild(container);
@@ -406,7 +430,7 @@ ban.on("value",(adminBan)=>{
         
         if(prompt){
           ban.remove();
-          // window.location.reload(true);
+          window.location.reload(true);
         }
 
       });
@@ -438,7 +462,6 @@ userIP.on("value",(IP)=>{
       warns.forEach(warning=>{
         let warningIP = warning.val();
           if(ips.IP === warningIP.Ip){
-          console.log('true ' + ips.IP +' '+warningIP.Ip);
           warningCount++;
           }else{
           console.log('false');
@@ -461,6 +484,14 @@ userIP.on("value",(IP)=>{
     
   });
   setTimeout(()=>{
+    
+    let newwarningCount = warningCount - arr.length +1;
+    if(newwarningCount < 0){
+      newwarningCount = 0;
+    }else{
+      newwarningCount=newwarningCount;
+    }
+
     // let ipAdd = firebase.database().ref('/IP Address/');
       let ipArray=[];
       for(let i=0;i<arr.length;i++){
@@ -469,6 +500,7 @@ userIP.on("value",(IP)=>{
           // ipAdd.push(arr[i]);
         }
       }
+      document.querySelector('.ip-container').innerHTML = '';
       ipArray.forEach(ip=>{
       const container = document.createElement('div');
       container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px;';
@@ -487,7 +519,7 @@ userIP.on("value",(IP)=>{
       warningTitle.innerHTML = 'Warning';
       warningTitle.style='margin-bottom:10px;';
       const warningText = document.createElement('p');
-      warningText.innerHTML = warningCount;
+      warningText.innerHTML = newwarningCount;
 
       const banContainer = document.createElement('div');
       banContainer.style = 'max-width:15rem; min-width:15rem;';
@@ -513,6 +545,55 @@ userIP.on("value",(IP)=>{
 
 },1000);
 });
+
+
+//Message
+let messages = firebase.database().ref('/Report Message/');
+
+messages.on("value",(message)=>{
+  message.forEach(datas=>{
+    let messageData = datas.val();
+
+    const container = document.createElement('div');
+    container.style = 'width:750px;box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px;';
+    
+    const messageContainer = document.createElement('div');
+    messageContainer.style = 'max-width:15rem; min-width:15rem;';
+    const messageTitle = document.createElement('p');
+    messageTitle.innerHTML = 'Messages';
+    messageTitle.style='margin-bottom:10px;';
+    const messageText = document.createElement('p');
+    messageText.innerHTML = messageData.message;
+
+    const nameContainer = document.createElement('div');
+    nameContainer.style = 'max-width:15rem; min-width:15rem;';
+    const nameTitle = document.createElement('p');
+    nameTitle.innerHTML = 'Name';
+    nameTitle.style='margin-bottom:10px;';
+    const nameText = document.createElement('p');
+    nameText.innerHTML = messageData.name;
+
+    const emailContainer = document.createElement('div');
+    emailContainer.style = 'max-width:15rem; min-width:15rem;';
+    const emailTitle = document.createElement('p');
+    emailTitle.innerHTML = 'Email';
+    emailTitle.style='margin-bottom:10px;';
+    const emailText = document.createElement('p');
+    emailText.innerHTML = messageData.email;
+
+    document.querySelector('.message-container').appendChild(container);
+    container.appendChild(messageContainer);
+    messageContainer.appendChild(messageTitle);
+    messageContainer.appendChild(messageText);
+    container.appendChild(nameContainer);
+    nameContainer.appendChild(nameTitle);
+    nameContainer.appendChild(nameText);
+    container.appendChild(emailContainer);
+    emailContainer.appendChild(emailTitle);
+    emailContainer.appendChild(emailText);
+  });
+});
+
 
 
 

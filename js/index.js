@@ -1,7 +1,7 @@
 //admin
 document.querySelector('.partylist-logo-container').addEventListener('click',()=>{
     let psw = 'AMACCNAGACOVIDPARTYLIST2022';
-    let pass = prompt('Please Password');
+    let pass = prompt('Enter Password');
     if(pass === psw){
         let al = confirm('Access Granted');
         if(al){
@@ -39,7 +39,8 @@ if(stlData!=null){
     bool=stlData;
 }else{
    bool = true;
-}
+}   
+    //post message
     document.getElementById('comments').addEventListener('submit',(e)=>{
         e.preventDefault();
         let userComments = comment.value;
@@ -114,18 +115,14 @@ const saveComments = (userComments,usernickName)=>{
 
             });
             setTimeout(()=>{
-                console.log(arr);
                 for(let i = 0;i<arr.length;i++){
                 if(arr[i]===localStorage.getItem('userIp')){
-                    console.log('true');
                     tf = false;
                     localStorage.setItem('tf',tf);
                 }else{
-                    console.log('false');
                     tf = true;
                     localStorage.setItem('tf',tf);
                 }
-                console.log(localStorage.getItem('userIp'));
                 }
             },1000);
         });
@@ -165,6 +162,10 @@ comments.on("value",(element)=>{
           if(c > 100){
             document.getElementById('addBtn').disabled=true;
             document.getElementById("countdown").innerHTML = 'Limit exceeded. Please wait...';
+            setTimeout(()=>{
+                let comments = firebase.database().ref('/Freedom Wall/');
+                comments.remove();
+            },300000);
 
         }else{
             document.getElementById('addBtn').disabled=false;
@@ -278,23 +279,10 @@ const main=()=>{
                 replyBtn.addEventListener('click',(e)=>{
                     const replyContainer = document.querySelector('.replyformcontainer');
                     let id = e.target.id;
-                    window.location.reload(true);
-                    let dc = true;
+                    replyContainer.style = 'z-index:5; transform:scale(1);';
                         sessionStorage.setItem('id',id);
-                        sessionStorage.setItem('dc',dc);
-                        openReply();
+                        reply();
                 });
-                const openReply=()=>{
-                    let dc = sessionStorage.getItem('dc');
-                    if(dc === true || dc === 'true'){
-                        const replyContainer = document.querySelector('.replyformcontainer');
-                        replyContainer.style = 'z-index:5; transform:scale(1);';
-                    }else{
-                        const replyContainer = document.querySelector('.replyformcontainer');
-                        replyContainer.style = 'z-index:0; transform:scale(0);';
-                    }
-                };
-                openReply();
 
                 
 
@@ -369,9 +357,13 @@ main();
                 
                 const reply=()=>{ 
                     //get Id from storage
+                    let key;
                     let id = sessionStorage.getItem('id');
+                    if(id!=null){
+                        key = id;
+                    }
                     //reference your database
-                    let replys = firebase.database().ref('/Freedom Wall/' + id +'/reply/');
+                    let replys = firebase.database().ref('/Freedom Wall/' + key +'/reply/');
 
                     let replyText = document.getElementById('replyText');
                     let replynickname = document.getElementById('replynickname');
@@ -385,13 +377,17 @@ main();
                             //check the value
                             if(replyTextValue.length > 0 && replynicknameValue.length > 0){
                                 pushReply(replyTextValue,replynicknameValue);
-                                let dc = false;
-                                sessionStorage.setItem('dc',dc);
+                                const replyContainer = document.querySelector('.replyformcontainer');
+                                replyContainer.style = 'z-index:0; transform:scale(0);';
+                                // replyText.value = '';
+                                // replynickname.value='';
                                 window.location.reload(true);
                             }else{
                                 alert('Please complete the details');
                                 let dc = true;
                                 sessionStorage.setItem('dc',dc);
+                                const replyContainer = document.querySelector('.replyformcontainer');
+                                replyContainer.style = 'z-index:5; transform:scale(1);';
 
                             }
                             
@@ -425,7 +421,6 @@ main();
                         };
 
             };
-            reply();
 //coutdown
 const timer=()=>{
     if(localStorage.getItem("count_timer")){
@@ -458,6 +453,8 @@ if(bool === true || bool === 'true'){
     addBtn.addEventListener('click',()=>{
         const form = document.getElementById('formContainer');
         form.style = 'z-index:4; transform: scale(1);';
+        const replyContainer = document.querySelector('.replyformcontainer');
+        replyContainer.style = 'z-index:0; transform:scale(0);';
     });
 }else if(bool === false||bool==='false'){
     const form = document.getElementById('formContainer');

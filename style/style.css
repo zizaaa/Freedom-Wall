@@ -101,14 +101,14 @@ body{
     position: absolute;
     left: 10px;
     z-index: 3;
-    bottom: 10px;
+    bottom: 65px;
     font-size: 13px;
     color: rgb(167, 167, 167);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .comments-container{
     width: 100%;
-    height: 100vh;
+    height: 91vh;
     position: relative;
     display: flex;
     align-items: start;
@@ -121,7 +121,7 @@ body{
     color: white;
     position: absolute;
     right: 20px;
-    bottom: 10px;
+    bottom: 65px;
 }
 .fa-quote-left, .fa-quote-right{
     font-size:10px;
@@ -410,6 +410,10 @@ body{
     cursor: pointer;
 }
 .replyformcontainer{
+    /* From https://css.glass */
+    /* background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px); */
     z-index: 0;
     transform: scale(0);
     position: absolute;
@@ -423,21 +427,50 @@ body{
     justify-content: center;
 }
 #replyForm{
-    background-color: lightcoral;
+        /* From https://css.glass */
+        background: rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        /* background-color: lightblue; */
+        box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 300px;
-    height: 150px;
+    width: 40%;
+    height: 240px;
     position: relative;
+}
+@media(max-width:700px){
+    #replyForm{
+    width: 50%;
+    height: 240px;
+}
+}
+@media(max-width:500px){
+    #replyForm{
+    width: 70%;
+    height: 240px;
+}
+}
+@media(max-width:400px){
+    #replyForm{
+    width: 95%;
+    height: 240px;
+}
 }
 #replyForm #replyText{
     padding: 5px;
     outline: none;
     border: none;
     border-radius: 5px;
+    height: 35px;
     width: 90%;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+#replyForm #replyText:focus,#replyForm #replynickname:focus{
+    transition: all 1s;
+    box-shadow: 2px 2px 2px 2px inset rgba(0, 0, 0, 0.3);
 }
 #replyForm #replynickname{
     padding: 5px;
@@ -446,10 +479,14 @@ body{
     border: none;
     border-radius: 5px;
     width: 90%;
+    height: 35px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 #replyForm #replybtn{
-    padding: 5px 7px;
+    padding: 7px 14px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
     border: none;
+    margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
     background-color: green;
@@ -524,12 +561,12 @@ backdrop-filter: blur(6.8px);
 -webkit-backdrop-filter: blur(6.8px);
     display: flex;
     align-items: center;
-    z-index: 2;
+    z-index: 1;
     height: 4rem;
     justify-content: space-evenly;
-    position: absolute;
+    /* position: absolute;
     left: 0;
-    right: 0;
+    right: 0; */
 }
 footer .ico{
     font-size: 1.5rem;
