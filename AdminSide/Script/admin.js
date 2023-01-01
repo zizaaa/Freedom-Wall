@@ -11,6 +11,8 @@ document.getElementById('ip').style='transform:scale(0);z-index:0;';
 document.querySelector('.ip').style='text-decoration:none;';
 document.getElementById('message').style='transform:scale(0);z-index:0;';
 document.querySelector('.message').style='text-decoration:none;';
+document.getElementById('announce').style='transform:scale(0);z-index:0;';
+document.querySelector('.announce').style='text-decoration:none;';
 });
 document.querySelector('.report').addEventListener('click',()=>{
   document.getElementById('notes').style='transform:scale(0);z-index:0;';
@@ -25,6 +27,8 @@ document.getElementById('ip').style='transform:scale(0);z-index:0;';
 document.querySelector('.ip').style='text-decoration:none;';
 document.getElementById('message').style='transform:scale(0);z-index:0;';
 document.querySelector('.message').style='text-decoration:none;';
+document.getElementById('announce').style='transform:scale(0);z-index:0;';
+document.querySelector('.announce').style='text-decoration:none;';
 });
 document.querySelector('.warning').addEventListener('click',()=>{
 document.getElementById('warning').style='transform:scale(1);z-index:2;';
@@ -39,6 +43,8 @@ document.getElementById('ip').style='transform:scale(0);z-index:0;';
 document.querySelector('.ip').style='text-decoration:none;';
 document.getElementById('message').style='transform:scale(0);z-index:0;';
 document.querySelector('.message').style='text-decoration:none;';
+document.getElementById('announce').style='transform:scale(0);z-index:0;';
+document.querySelector('.announce').style='text-decoration:none;';
 });
 document.querySelector('.banned').addEventListener('click',()=>{
   document.getElementById('banned').style='transform:scale(1);z-index:2;';
@@ -53,6 +59,8 @@ document.getElementById('ip').style='transform:scale(0);z-index:0;';
 document.querySelector('.ip').style='text-decoration:none;';
 document.getElementById('message').style='transform:scale(0);z-index:0;';
 document.querySelector('.message').style='text-decoration:none;';
+document.getElementById('announce').style='transform:scale(0);z-index:0;';
+document.querySelector('.announce').style='text-decoration:none;';
 });
 document.querySelector('.ip').addEventListener('click',()=>{
   document.getElementById('ip').style='transform:scale(1);z-index:2;';
@@ -67,6 +75,8 @@ document.getElementById('warning').style='transform:scale(0);z-index:0;';
 document.querySelector('.warning').style='text-decoration:none;';
 document.getElementById('message').style='transform:scale(0);z-index:0;';
 document.querySelector('.message').style='text-decoration:none;';
+document.getElementById('announce').style='transform:scale(0);z-index:0;';
+document.querySelector('.announce').style='text-decoration:none;';
 });
 document.querySelector('.message').addEventListener('click',()=>{
   document.getElementById('message').style='transform:scale(1);z-index:2;';
@@ -81,6 +91,24 @@ document.getElementById('report').style='transform:scale(0);z-index:0;';
 document.querySelector('.report').style='text-decoration:none;';
 document.getElementById('warning').style='transform:scale(0);z-index:0;';
 document.querySelector('.warning').style='text-decoration:none;';
+document.getElementById('announce').style='transform:scale(0);z-index:0;';
+document.querySelector('.announce').style='text-decoration:none;';
+});
+document.querySelector('.announce').addEventListener('click',()=>{
+  document.getElementById('announce').style='transform:scale(1);z-index:2;';
+  document.querySelector('.announce').style='text-decoration:underline;';
+  document.getElementById('ip').style='transform:scale(0);z-index:0;';
+  document.querySelector('.ip').style='text-decoration:none;';
+  document.getElementById('banned').style='transform:scale(0);z-index:0;';
+  document.querySelector('.banned').style='text-decoration:none;';
+  document.getElementById('notes').style='transform:scale(0);z-index:0;';
+document.querySelector('.notes').style='text-decoration:none;';
+document.getElementById('report').style='transform:scale(0);z-index:0;';
+document.querySelector('.report').style='text-decoration:none;';
+document.getElementById('warning').style='transform:scale(0);z-index:0;';
+document.querySelector('.warning').style='text-decoration:none;';
+document.getElementById('message').style='transform:scale(0);z-index:0;';
+document.querySelector('.message').style='text-decoration:none;';
 });
 
 
@@ -105,7 +133,7 @@ notes.on("value",(adminNotes)=>{
     adminNotes.forEach(el => {
         let comments = el.val();
         const container = document.createElement('div');
-        container.style = 'background-color:#ecf0f3;box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2); width:1050px; padding:20px; display:flex;flex-direction:row; margin-bottom:20px;';
+        container.style = 'background-color:#ecf0f3;box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2); width:1050px; padding:20px; display:flex;flex-direction:row;justify-content:space-between; align-items:center;  margin-bottom:20px;';
         
         const commentContainer = document.createElement('div');
         commentContainer.style = 'max-width:15rem;min-width:15rem; margin-right:10px;';
@@ -189,7 +217,7 @@ report.on("value",(adminReport)=>{
 
           const container = document.createElement('div');
           container.setAttribute('id',reportDatas.ReportedIp);
-          container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3; width:1100px; padding:20px; display:flex;flex-direction:row; margin-bottom:20px;';
+          container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3; width:1100px; padding:20px; display:flex;flex-direction:row;justify-content:space-between; align-items:center;  margin-bottom:20px;';
           
           const commentContainer = document.createElement('div');
           commentContainer.style = 'max-width:15rem; min-width:15rem; margin-right:20px;';
@@ -274,7 +302,6 @@ report.on("value",(adminReport)=>{
           btnContainer.appendChild(banBtn);
           banBtn.addEventListener('click',(e)=>{
             let key = banBtn.value;
-            console.log('ban');
             let ban = firebase.database().ref('/Banned IP/');
             let banIp = e.target.parentElement.parentElement.id;
 
@@ -284,6 +311,22 @@ report.on("value",(adminReport)=>{
                     IPAddress:banIp
                   });
       
+                  let report = firebase.database().ref(`/Reported Notes/${key}`);
+                  report.remove();
+                  window.location.reload(true);
+                }
+          });
+          //delete
+          const deleteBtn = document.createElement('button');
+          deleteBtn.innerHTML = 'Delete';
+          deleteBtn.style = 'margin-top:10px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px;padding:5px 0;width:5rem;background-color:red; color:white; font-weight:bold;';
+          deleteBtn.setAttribute('value',reportEl.key);
+          btnContainer.appendChild(deleteBtn);
+          deleteBtn.addEventListener('click',(e)=>{
+            let key = deleteBtn.value;
+
+            let prompt = confirm('Are you sure to delete this message?');
+                if(prompt){
                   let report = firebase.database().ref(`/Reported Notes/${key}`);
                   report.remove();
                   window.location.reload(true);
@@ -319,7 +362,7 @@ warn.on("value",(warnAd)=>{
   warnAd.forEach(warnData=>{
     let warnDatas = warnData.val();
     const container = document.createElement('div');
-          container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px;';
+          container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px;justify-content:space-between; align-items:center; ';
           container.setAttribute('id',warnDatas.Ip);
 
           const ipContainer = document.createElement('div');
@@ -405,7 +448,7 @@ ban.on("value",(adminBan)=>{
     let bannedData = banned.val();
 
     const container = document.createElement('div');
-    container.style = 'justify-content:space-between;box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px;';
+    container.style = 'justify-content:space-between;box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row;align-items:center;  margin-bottom:20px;';
     
     const ipContainer = document.createElement('div');
     ipContainer.style = 'max-width:15rem; min-width:15rem; margin-right:20px;';
@@ -448,8 +491,7 @@ ban.on("value",(adminBan)=>{
 let userIP = firebase.database().ref('/UserIP/');
 userIP.on("value",(IP)=>{
   let arr = [];
-  let warningCount=0;
-  let isBanned = 'false';
+  // let isBanned = 'false';
   IP.forEach(dataIP=>{
 
       let ips = dataIP.val();
@@ -457,53 +499,38 @@ userIP.on("value",(IP)=>{
         arr.push(ips.IP);
     },1000);
 
-    let warned = firebase.database().ref('/Warn IP/');
-    warned.on("value",(warns)=>{
-      warns.forEach(warning=>{
-        let warningIP = warning.val();
-          if(ips.IP === warningIP.Ip){
-          warningCount++;
-          }else{
-          console.log('false');
-          }
-      });
-    });
-    
-    ban.on("value",(bans)=>{
-      bans.forEach(banned=>{
-        let bannedData = banned.val();
-        console.log(bannedData.IPAddress);
-        console.log(ips.IP);
-        if(bannedData.IPAddress === ips.IP){
-          isBanned='true';
-        }else{
-          isBanned='false';
-        }
-      });
-    });
+
+    // let ban = firebase.database().ref('/Banned IP/');
+    // ban.on("value",(bans)=>{
+    //   bans.forEach(banned=>{
+    //     let bannedData = banned.val();
+    //     if(bannedData.IPAddress === ips.IP){
+    //       isBanned='true';
+    //       console.log('true');
+    //     }else{
+    //       isBanned='false';
+    //       console.log('false');
+    //     }
+    //   });
+    // });
     
   });
-  setTimeout(()=>{
-    
-    let newwarningCount = warningCount - arr.length +1;
-    if(newwarningCount < 0){
-      newwarningCount = 0;
-    }else{
-      newwarningCount=newwarningCount;
-    }
 
-    // let ipAdd = firebase.database().ref('/IP Address/');
+  setTimeout(()=>{
+
+
+    //remove double ip
       let ipArray=[];
       for(let i=0;i<arr.length;i++){
         if(ipArray.indexOf(arr[i])== -1){
           ipArray.push(arr[i]);
-          // ipAdd.push(arr[i]);
         }
       }
-      document.querySelector('.ip-container').innerHTML = '';
+      
       ipArray.forEach(ip=>{
+
       const container = document.createElement('div');
-      container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px;';
+      container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px; justify-content:space-between; align-items:center; ';
 
       const ipContainer = document.createElement('div');
       ipContainer.style = 'max-width:15rem; min-width:15rem;';
@@ -513,34 +540,34 @@ userIP.on("value",(IP)=>{
       const ipText = document.createElement('p');
       ipText.innerHTML = ip;
 
-      const warningContainer = document.createElement('div');
-      warningContainer.style = 'max-width:15rem; min-width:15rem;';
-      const warningTitle = document.createElement('p');
-      warningTitle.innerHTML = 'Warning';
-      warningTitle.style='margin-bottom:10px;';
-      const warningText = document.createElement('p');
-      warningText.innerHTML = newwarningCount;
+      // const warningContainer = document.createElement('div');
+      // warningContainer.style = 'max-width:15rem; min-width:15rem;';
+      // const warningTitle = document.createElement('p');
+      // warningTitle.innerHTML = 'Warning';
+      // warningTitle.style='margin-bottom:10px;';
+      // const warningText = document.createElement('p');
+      // warningText.innerHTML = '0';
 
-      const banContainer = document.createElement('div');
-      banContainer.style = 'max-width:15rem; min-width:15rem;';
-      const banTitle = document.createElement('p');
-      banTitle.innerHTML = 'Banned';
-      banTitle.style='margin-bottom:10px;';
-      const banText = document.createElement('p');
-      banText.innerHTML = isBanned;
+      // const banContainer = document.createElement('div');
+      // banContainer.style = 'max-width:15rem; min-width:15rem;';
+      // const banTitle = document.createElement('p');
+      // banTitle.innerHTML = 'Banned';
+      // banTitle.style='margin-bottom:10px;';
+      // const banText = document.createElement('p');
+      // banText.innerHTML = 'false';
 
       document.querySelector('.ip-container').appendChild(container);
       container.appendChild(ipContainer);
       ipContainer.appendChild(ipTitle);
       ipContainer.appendChild(ipText);
 
-      container.appendChild(warningContainer);
-      warningContainer.appendChild(warningTitle);
-      warningContainer.appendChild(warningText);
+      // container.appendChild(warningContainer);
+      // warningContainer.appendChild(warningTitle);
+      // warningContainer.appendChild(warningText);
 
-      container.appendChild(banContainer);
-      banContainer.appendChild(banTitle);
-      banContainer.appendChild(banText);
+      // container.appendChild(banContainer);
+      // banContainer.appendChild(banTitle);
+      // banContainer.appendChild(banText);
       });
 
 },1000);
@@ -548,7 +575,7 @@ userIP.on("value",(IP)=>{
 
 
 //Message
-let messages = firebase.database().ref('/Report Message/');
+let messages = firebase.database().ref('Message');
 
 messages.on("value",(message)=>{
   message.forEach(datas=>{
@@ -560,7 +587,7 @@ messages.on("value",(message)=>{
     const messageContainer = document.createElement('div');
     messageContainer.style = 'max-width:15rem; min-width:15rem;';
     const messageTitle = document.createElement('p');
-    messageTitle.innerHTML = 'Messages';
+    messageTitle.innerHTML = 'Message';
     messageTitle.style='margin-bottom:10px;';
     const messageText = document.createElement('p');
     messageText.innerHTML = messageData.message;
@@ -568,18 +595,18 @@ messages.on("value",(message)=>{
     const nameContainer = document.createElement('div');
     nameContainer.style = 'max-width:15rem; min-width:15rem;';
     const nameTitle = document.createElement('p');
-    nameTitle.innerHTML = 'Name';
+    nameTitle.innerHTML = 'Nickname';
     nameTitle.style='margin-bottom:10px;';
     const nameText = document.createElement('p');
-    nameText.innerHTML = messageData.name;
+    nameText.innerHTML = messageData.nickname;
 
-    const emailContainer = document.createElement('div');
-    emailContainer.style = 'max-width:15rem; min-width:15rem;';
-    const emailTitle = document.createElement('p');
-    emailTitle.innerHTML = 'Email';
-    emailTitle.style='margin-bottom:10px;';
-    const emailText = document.createElement('p');
-    emailText.innerHTML = messageData.email;
+    const ipContainer = document.createElement('div');
+    ipContainer.style = 'max-width:15rem; min-width:15rem;';
+    const ipTitle = document.createElement('p');
+    ipTitle.innerHTML = 'IP Address';
+    ipTitle.style='margin-bottom:10px;';
+    const ipText = document.createElement('p');
+    ipText.innerHTML = messageData.IP;
 
     document.querySelector('.message-container').appendChild(container);
     container.appendChild(messageContainer);
@@ -588,12 +615,116 @@ messages.on("value",(message)=>{
     container.appendChild(nameContainer);
     nameContainer.appendChild(nameTitle);
     nameContainer.appendChild(nameText);
-    container.appendChild(emailContainer);
-    emailContainer.appendChild(emailTitle);
-    emailContainer.appendChild(emailText);
+    container.appendChild(ipContainer);
+    ipContainer.appendChild(ipTitle);
+    ipContainer.appendChild(ipText);
   });
 });
 
 
+//announcement
+document.getElementById('addAnounce').addEventListener('click',(e)=>{
+    document.querySelector('.announceformContainer').style = 'transform:scale(1);z-index:2;';
+});
 
+let announcements = firebase.database().ref('/Announcements/');
+
+let text = document.getElementById('text');
+document.getElementById('announceForm').addEventListener('submit',(e)=>{
+  textValue = text.value;
+  if(textValue.length > 0){
+    saveAnnounce(textValue);
+    document.querySelector('.announceformContainer').style = 'transform:scale(0);z-index:0;';
+    text.value = ' ';
+  }else{
+    alert('Please add some text!');
+  }
+  
+});
+
+const saveAnnounce=(textValue)=>{
+        //date picker
+        function formatAMPM(date) {
+          var hours = date.getHours();
+          var minutes = date.getMinutes();
+          var ampm = hours >= 12 ? 'pm' : 'am';
+          hours = hours % 12;
+          hours = hours ? hours : 12; // the hour '0' should be '12'
+          minutes = minutes < 10 ? '0'+minutes : minutes;
+          let day = date.getDate();
+          let month = date.getMonth()+1;
+          let year = date.getFullYear();
+          // hours = hours ? hours : 12; // the hour '0' should be '12'
+          // minutes = minutes < 10 ? '0'+minutes : minutes;
+          var strTime =month+'/'+day+'/'+year+ ' ' + hours + ':' + minutes + ' ' + ampm;
+          return strTime;
+      }
+      let time=formatAMPM(new Date);
+
+      announcements.push({
+        Announcement:textValue,
+        Date:time
+      });
+};
+
+announcements.on("value",(announced)=>{
+  document.querySelector('.announce-container').innerHTML = ' ';
+  announced.forEach(el=>{
+    let data = el.val();
+
+    const container = document.createElement('div');
+    container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row;justify-content:space-between; align-items:center; margin-bottom:20px;';
+    
+    const messageContainer = document.createElement('div');
+    messageContainer.style = 'max-width:15rem; min-width:15rem;';
+    const messageTitle = document.createElement('p');
+    messageTitle.innerHTML = 'Announcement';
+    messageTitle.style='margin-bottom:10px;';
+    const messageText = document.createElement('p');
+    messageText.style = 'overflow-wrap:break-word;';
+    messageText.innerHTML = data.Announcement;
+
+    const dateContainer = document.createElement('div');
+    dateContainer.style = 'max-width:15rem; min-width:15rem;';
+    const dateTitle = document.createElement('p');
+    dateTitle.innerHTML = 'Date & Time';
+    dateTitle.style='margin-bottom:10px;';
+    const dateText = document.createElement('p');
+    dateText.innerHTML = data.Date;
+
+          //btncontainer
+          const btnContainer = document.createElement('div');
+          const delBtn = document.createElement('button');
+          delBtn.setAttribute('id',el.key);
+          delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+          delBtn.style = 'margin-right:20px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px;padding:10px ;background-color:red; color:white; font-weight:bold;';
+          delBtn.addEventListener('click',(e)=>{
+              let key = delBtn.id;
+
+              let prompt = confirm("Are you sure do you want to delete this announcement?");
+
+              if(prompt){
+                let announcements = firebase.database().ref(`/Announcements/${key}`);
+                announcements.remove();
+              }
+          });
+
+    document.querySelector('.announce-container').appendChild(container);
+    container.appendChild(messageContainer);
+    messageContainer.appendChild(messageTitle);
+    messageContainer.appendChild(messageText);
+
+    container.appendChild(dateContainer);
+    dateContainer.appendChild(dateTitle);
+    dateContainer.appendChild(dateText);
+
+    container.appendChild(btnContainer);
+    btnContainer.appendChild(delBtn);
+  });
+});
+
+//exit announcement form
+document.getElementById('Exit').addEventListener('click',()=>{
+  document.querySelector('.announceformContainer').style = 'transform:scale(0);z-index:0;';
+});
 

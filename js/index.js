@@ -82,7 +82,7 @@ const saveComments = (userComments,usernickName)=>{
         let year = date.getFullYear();
         // hours = hours ? hours : 12; // the hour '0' should be '12'
         // minutes = minutes < 10 ? '0'+minutes : minutes;
-        var strTime = hours + ':' + minutes + ' ' + ampm + ' ' + month+'/'+day+'/'+year;
+        var strTime =month+'/'+day+'/'+year + ' ' + hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
     let time=formatAMPM(new Date);
@@ -311,7 +311,7 @@ const main=()=>{
                         let replyDatas = e.val();
 
                         const connector = document.createElement('div');
-                        connector.style = 'width:1px; height:15px; position:relative; border:1px dashed white;';
+                        connector.style = 'width:1px; height:15px; position:relative; border-left:1px solid white;';
                         connector.classList.add('connector');
                         connector.setAttribute('id','connector');
                         
@@ -407,7 +407,7 @@ main();
                                 let year = date.getFullYear();
                                 // hours = hours ? hours : 12; // the hour '0' should be '12'
                                 // minutes = minutes < 10 ? '0'+minutes : minutes;
-                                var strTime = hours + ':' + minutes + ' ' + ampm + ' ' + month+'/'+day+'/'+year;
+                                var strTime =month+'/'+day+'/'+year + ' ' + hours + ':' + minutes + ' ' + ampm;
                                 return strTime;
                             }
                             let time=formatAMPM(new Date);
@@ -531,6 +531,3 @@ let exitReport = document.getElementById('reportExit').addEventListener('click',
 
 
 //announcement
-const announce=()=>{
-    alert('No announcement yet');
-};

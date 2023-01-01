@@ -437,6 +437,7 @@ body{
     justify-content: center;
     width: 40%;
     height: 240px;
+    border-radius: 10px;
     position: relative;
 }
 @media(max-width:700px){
@@ -458,6 +459,12 @@ body{
 }
 }
 #replyForm #replyText{
+            /* From https://css.glass */
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            /* background-color: lightblue; */
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
     padding: 5px;
     outline: none;
     border: none;
@@ -471,6 +478,12 @@ body{
     box-shadow: 2px 2px 2px 2px inset rgba(0, 0, 0, 0.3);
 }
 #replyForm #replynickname{
+            /* From https://css.glass */
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            /* background-color: lightblue; */
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
     padding: 5px;
     margin: 10px 0;
     outline: none;
@@ -498,11 +511,6 @@ cursor: pointer;
 }
 
 .reportformcontainer{
-    /* From https://css.glass */
-    background: rgba(255, 255, 255, 0.18);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(6.8px);
-    -webkit-backdrop-filter: blur(6.8px);
     position: absolute;
     left: 0;
     right: 0;
@@ -515,23 +523,52 @@ cursor: pointer;
     transform: scale(0);
 }
 .reportformcontainer #reportForm{
-    background-color: lightpink;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* background-color: lightblue; */
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
     height: 15rem;
-    width: 300px;
+    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
 }
+@media(max-width:700px){
+    .reportformcontainer #reportForm{
+        width: 60%;
+    }
+}
+@media(max-width:500px){
+    .reportformcontainer #reportForm{
+        width: 80%;
+    }
+}
+@media(max-width:300px){
+    .reportformcontainer #reportForm{
+        width: 100%;
+    }
+}
 .reportformcontainer #reportForm #reportText{
-    max-width: 250px;
-    min-width: 200px;
+    
+    max-width: 80%;
+    min-width: 50%;
     max-height: 10rem;
     min-height: 5rem;
     padding: 5px;
     margin-bottom: 10px;
     outline: none;
+    border: none;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.reportformcontainer #reportForm #reportText:focus{
+    box-shadow: 2px 2px 1px 1px inset rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 .reportformcontainer #reportForm #report{
     padding: 6px 10px;
@@ -540,7 +577,12 @@ cursor: pointer;
     color: white;
     background-color: rgba(250, 0, 0, 0.8);
     cursor: pointer;
-
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    transition: all .5s;
+}
+.reportformcontainer #reportForm #report:hover{
+    background-color: rgba(204, 1, 1, 0.8);
+    transition: all .5s;
 }
 #reportExit{
     position: absolute;

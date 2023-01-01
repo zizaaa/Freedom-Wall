@@ -59,7 +59,23 @@
                 
             </div>
         </div>
-        <div id="announce"></div>
+        <div id="announce">
+            <div class="announce-header">
+                <h1>Announcement</h1>
+                <button class="addAnnounce" id="addAnounce">
+                    Add Announcement
+                </button>
+            </div>
+            <div class="announce-container">
+            </div>
+            <div class="announceformContainer">
+                <form action="" id="announceForm">
+                    <i class="fa-solid fa-xmark" id="Exit"></i>
+                    <textarea name="text" id="text" placeholder="Announcement"></textarea>
+                    <button type="submit" id="postBtn">Post</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>

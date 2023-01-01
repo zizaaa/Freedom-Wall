@@ -16,23 +16,21 @@ let reports = firebase.database().ref('Message');
 
 
 const username = document.getElementById('name');
-const email = document.getElementById('email');
 const message = document.getElementById('message');
 
 document.getElementById('reportform').addEventListener('submit',(e)=>{
     let nameValue = username.value;
-    let emailValue = email.value;
     let messageValue = message.value;
 
     e.preventDefault();
-    push(nameValue,emailValue,messageValue);
+    push(nameValue,messageValue);
     document.getElementById('textcontainer').style='transform:scale(1);';
 });
 
-const push=(nameValue,emailValue,messageValue)=>{
+const push=(nameValue,messageValue)=>{
     reports.push({
-        name: nameValue,
-        email: emailValue,
-        message:messageValue
+        nickname:nameValue,
+        message:messageValue,
+        IP:localStorage.getItem('userIp')
     });
 };
