@@ -624,3 +624,21 @@ footer .fa-plus:hover{
     background-color:rgb(9, 47, 80);
 
 }
+
+/* reply from admin */
+.adminrepContainer{
+    background: rgba(255, 255, 255, 0.075);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(6.8px);
+-webkit-backdrop-filter: blur(6.8px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    transform: scale(0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

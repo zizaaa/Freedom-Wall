@@ -530,4 +530,78 @@ let exitReport = document.getElementById('reportExit').addEventListener('click',
 });
 
 
-//announcement
+//reply from admin
+
+let replyAdmin = firebase.database().ref('/Message Reply/');
+
+replyAdmin.on("value",(rep)=>{
+
+    let rply;
+    let reply = JSON.parse(localStorage.getItem('reply'));
+    if(reply != null){
+        rply = reply;
+    }else{
+        rply=[];
+    }
+
+    rep.forEach(el=>{
+        let replyVal = el.val();
+        // console.log(replyVal.Message);
+        // console.log(replyVal.IP[0]);
+        // console.log(localStorage.getItem('userIp'));
+        if(replyVal.IP[0] === localStorage.getItem('userIp')){
+        rply.push({
+            reply:replyVal.Message,
+            to:replyVal.IP[0],
+            key:el.key
+        });
+        localStorage.setItem('reply',JSON.stringify(rply));
+        // window.location.reload(true);
+        document.querySelector('.adminrepContainer').innerHTML='';
+        setTimeout(()=>{
+            document.querySelector('.adminrepContainer').style = 'z-index:5;transform:scale(1);';
+            let container = document.querySelector('.adminrepContainer');
+            const iconDev = document.createElement('div');
+            const icon = document.createElement('img');
+            icon.setAttribute('src','img/amapin.png');
+            icon.style = 'width: 35px;';
+            iconDev.appendChild(icon);
+            iconDev.style = `position:absolute; top:-15px;left:45%;`;
+        
+            let replyContainer = document.createElement('div');
+            replyContainer.style = 'position:relative;background-color:#ecf0f3;overflow-wrap:break-word; padding:30px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.3);';
+            let replyMessage = document.createElement('p');
+            replyMessage.innerHTML = rply[0].reply;
+            let replyFrom = document.createElement('p');
+            replyFrom.innerHTML = '-Admins';
+            replyFrom.style = 'margin-top:10px';
+        
+            let btnContainer = document.createElement('div');
+            btnContainer.style = 'width:100%;display:flex;align-items:center;justify-content:center; margin-top:20px;';
+            let btn = document.createElement('button');
+            btn.innerHTML = 'Okay';
+            btn.style = 'width:100%; background-color:green;padding:5px 0;color:white; border-radius:5px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.2); border:none;';
+            btn.onclick = function(){
+                localStorage.removeItem("reply");
+                let replyAdmin = firebase.database().ref(`/Message Reply/${rply[0].key}`);
+                replyAdmin.remove();
+                document.querySelector('.adminrepContainer').style = 'z-index:0;transform:scale(0);';
+            };
+        
+            container.appendChild(replyContainer);
+            replyContainer.appendChild(iconDev);
+            iconDev.appendChild(icon);
+            replyContainer.appendChild(replyMessage);
+            replyContainer.appendChild(replyFrom);
+            replyContainer.appendChild(btnContainer);
+            btnContainer.appendChild(btn);
+        },1000);
+        }else{
+            document.querySelector('.adminrepContainer').style = 'z-index:0;transform:scale(0);';
+        }
+    });
+
+});
+
+
+

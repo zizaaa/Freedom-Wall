@@ -166,8 +166,8 @@ body{
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    z-index: 0;
-    transform: scale(0);
+    z-index: 2;
+    transform: scale(1);
     position: absolute;
 }
 .main-container #message .message-container{
@@ -253,7 +253,7 @@ body{
     width: 60%;
     position: relative;
 }
-form #text{
+.announceformContainer form #text{
     max-width: 80%;
     min-width: 70%;
     max-height: 170px;
@@ -264,10 +264,10 @@ form #text{
     padding: 5px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
-form #text:focus{
+.announceformContainer form #text:focus{
     box-shadow: 2px 2px 2px 2px inset rgba(0, 0, 0, 0.2);
 }
-form #postBtn{
+.announceformContainer form #postBtn{
     padding: 6px 20px;
     border: none;
     background-color: green;
@@ -277,13 +277,71 @@ form #postBtn{
     cursor: pointer;
     transition: all .3s;
 }
-form #postBtn:hover{
+.announceformContainer form #postBtn:hover{
     transition: all .3s;
     background-color: rgb(2, 100, 2);
 }
-#Exit{
+.announceformContainer form #Exit{
     position: absolute;
     right: 10px;
     top: 10px;
 cursor: pointer;
+}
+
+.replyformContainer{
+    background: rgba(5, 5, 5, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+    z-index: 0;
+}
+.replyformContainer #replyForm{
+    background: rgba(255, 255, 255, 0.596);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 15rem;
+}
+#messageText{
+    outline: none;
+    min-width: 60%;
+    max-width: 80%;
+    max-height: 8rem;
+    min-height: 5rem;
+    margin-bottom: 20px;
+    border: none;
+    padding: 5px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+#messageText:focus{
+    box-shadow: 1px 1px 1px 1px inset rgba(0, 0, 0, 0.3);
+}
+#replyBtn{
+    padding: 4px 10px;
+    border: none;
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+#replyExit{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
 }

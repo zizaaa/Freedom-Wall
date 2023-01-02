@@ -578,19 +578,21 @@ userIP.on("value",(IP)=>{
 let messages = firebase.database().ref('Message');
 
 messages.on("value",(message)=>{
+  document.querySelector('.message-container').innerHTML = '';
   message.forEach(datas=>{
     let messageData = datas.val();
 
     const container = document.createElement('div');
-    container.style = 'width:750px;box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px;';
+    container.style = 'position:relative;width:850px;box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; align-items:center; margin-bottom:20px;';
     
     const messageContainer = document.createElement('div');
-    messageContainer.style = 'max-width:15rem; min-width:15rem;';
+    messageContainer.style = 'max-width:15rem; min-width:15rem; ';
     const messageTitle = document.createElement('p');
     messageTitle.innerHTML = 'Message';
     messageTitle.style='margin-bottom:10px;';
     const messageText = document.createElement('p');
     messageText.innerHTML = messageData.message;
+    messageText.style = 'overflow-wrap:break-word; margin-right:10px';
 
     const nameContainer = document.createElement('div');
     nameContainer.style = 'max-width:15rem; min-width:15rem;';
@@ -608,6 +610,35 @@ messages.on("value",(message)=>{
     const ipText = document.createElement('p');
     ipText.innerHTML = messageData.IP;
 
+    //btncontainer
+    const btnContainer = document.createElement('div');
+    btnContainer.style = 'display:flex; flex-direction:column; align-items:center;';
+    const replyBtn = document.createElement('button');
+    replyBtn.innerHTML = 'reply';
+    replyBtn.style = 'margin-right:20px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px; width:3rem; padding:10px 0;background-color:green; color:white; font-weight:bold; margin-bottom:10px;';
+    replyBtn.addEventListener('click',(e)=>{
+      // replyBtn.innerHTML = '<i class="fa-sharp fa-solid fa-check"></i>';
+
+      document.querySelector('.replyformContainer').style = 'transform:scale(1); z-index:2;';
+      document.getElementById('replyForm').classList.add(messageData.IP);
+    });
+
+
+    const delBtn = document.createElement('button');
+    delBtn.setAttribute('id',datas.key);
+    delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+    delBtn.style = 'margin-right:20px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px; width:3rem; padding:10px 0; background-color:red; color:white; font-weight:bold;';
+    delBtn.addEventListener('click',(e)=>{
+        let key = delBtn.id;
+        console.log(key);
+        let prompt = confirm("Are you sure do you want to delete this message?");
+    
+        if(prompt){
+          let messages = firebase.database().ref(`/Message/${key}`);
+          messages.remove();
+        }
+    });
+
     document.querySelector('.message-container').appendChild(container);
     container.appendChild(messageContainer);
     messageContainer.appendChild(messageTitle);
@@ -618,6 +649,9 @@ messages.on("value",(message)=>{
     container.appendChild(ipContainer);
     ipContainer.appendChild(ipTitle);
     ipContainer.appendChild(ipText);
+    container.appendChild(btnContainer);
+    btnContainer.appendChild(replyBtn);
+    btnContainer.appendChild(delBtn);
   });
 });
 
@@ -726,5 +760,29 @@ announcements.on("value",(announced)=>{
 //exit announcement form
 document.getElementById('Exit').addEventListener('click',()=>{
   document.querySelector('.announceformContainer').style = 'transform:scale(0);z-index:0;';
+});
+
+//reply form
+let reply = firebase.database().ref('/Message Reply/');
+let textReply = document.getElementById('messageText');
+document.getElementById('replyForm').addEventListener('submit',(e)=>{
+      e.preventDefault();
+      let form = document.getElementById('replyForm');
+      let formIP = form.classList;
+      let textReplyValue = textReply.value;
+      replyPush(textReplyValue,formIP);
+      window.location.reload(true);
+});
+
+const replyPush=(textReplyValue,formIP)=>{
+  reply.push({
+    Message:textReplyValue,
+    IP:formIP
+  });
+};
+
+//reply form exit
+document.getElementById('replyExit').addEventListener('click',()=>{
+  document.querySelector('.replyformContainer').style = 'transform:scale(0); z-index:0';
 });
 
