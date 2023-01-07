@@ -641,4 +641,5 @@ backdrop-filter: blur(6.8px);
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow-wrap: break-word;
 }

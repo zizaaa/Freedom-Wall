@@ -216,7 +216,7 @@ report.on("value",(adminReport)=>{
           let reportDatas = reportEl.val();
 
           const container = document.createElement('div');
-          container.setAttribute('id',reportDatas.ReportedIp);
+          // container.setAttribute('id',reportDatas.ReportedIp);
           container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3; width:1100px; padding:20px; display:flex;flex-direction:row;justify-content:space-between; align-items:center;  margin-bottom:20px;';
           
           const commentContainer = document.createElement('div');
@@ -262,35 +262,37 @@ report.on("value",(adminReport)=>{
           const warningBtn = document.createElement('button');
           warningBtn.innerHTML = 'Warning';
           warningBtn.style = 'box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px;padding:5px 0;margin-bottom:10px;width:5rem;background-color:red; color:white; font-weight:bold;';
-          warningBtn.setAttribute('id',reportDatas.Reason);
-          warningBtn.setAttribute('value',reportEl.key);
+          // warningBtn.setAttribute('id',reportDatas.Reason);
+          // warningBtn.setAttribute('value',reportEl.key);
           btnContainer.appendChild(warningBtn);
           warningBtn.addEventListener('click',(e)=>{
             //delete
-            let key = warningBtn.value;
-          
-            //push to warning
+            let key = reportEl.key;
             let warning = firebase.database().ref('/Warning IP/');
             let warn = firebase.database().ref('/Warn IP/');
-            let reason = warningBtn.id;
-            let warningIp = e.target.parentElement.parentElement.id;
+
+            //push to warning
             let prompt = confirm('Are you sure to send a Warning message to this IP Address?');
-            
+
             if(prompt){
 
               //push
               warning.push({
-                Ip:warningIp,
-                Reason:reason
+                Ip:reportDatas.ReportedIp,
+                Reason:reportDatas.Reason,
+                Key:reportDatas.Key
               });
               warn.push({
-                Ip:warningIp
+                Ip:reportDatas.ReportedIp
               });
               //delete
               let report = firebase.database().ref(`/Reported Notes/${key}`);
               report.remove();
-              window.location.reload(true);
+              // window.location.reload(true);
+              let message = firebase.database().ref(`/Freedom Wall/${reportDatas.Key}`);
+              message.remove();
             }
+            
           });
 
 
@@ -303,17 +305,17 @@ report.on("value",(adminReport)=>{
           banBtn.addEventListener('click',(e)=>{
             let key = banBtn.value;
             let ban = firebase.database().ref('/Banned IP/');
-            let banIp = e.target.parentElement.parentElement.id;
+            // let banIp = e.target.parentElement.parentElement.id;
 
             let prompt = confirm('Are you sure to ban this IP Address?');
                 if(prompt){
                   ban.push({
-                    IPAddress:banIp
+                    IPAddress:reportDatas.ReportedIp
                   });
       
                   let report = firebase.database().ref(`/Reported Notes/${key}`);
                   report.remove();
-                  window.location.reload(true);
+                  // window.location.reload(true);
                 }
           });
           //delete
@@ -329,7 +331,7 @@ report.on("value",(adminReport)=>{
                 if(prompt){
                   let report = firebase.database().ref(`/Reported Notes/${key}`);
                   report.remove();
-                  window.location.reload(true);
+                  // window.location.reload(true);
                 }
           });
   
@@ -401,7 +403,7 @@ warn.on("value",(warnAd)=>{
             let prompt = confirm('Are you sure to forgive this IP Address?');
             if(prompt){
               warning.remove();
-              window.location.reload(true);
+              // window.location.reload(true);
             }
           });
 
@@ -414,15 +416,16 @@ warn.on("value",(warnAd)=>{
             let key = warnData.key;
             
             let prompt = confirm('Are you sure to ban this IP Address?');
-
+            
             if(prompt){
               ban.push({
                 IPAddress:banIp
+                
               });
               
               let warning = firebase.database().ref(`/Warning IP/${key}`);
               warning.remove();
-              window.location.reload(true);
+              // window.location.reload(true);
             }
           });
           document.querySelector('.warning-container').appendChild(container);
@@ -473,7 +476,7 @@ ban.on("value",(adminBan)=>{
         
         if(prompt){
           ban.remove();
-          window.location.reload(true);
+          // window.location.reload(true);
         }
 
       });
@@ -491,88 +494,102 @@ ban.on("value",(adminBan)=>{
 let userIP = firebase.database().ref('/UserIP/');
 userIP.on("value",(IP)=>{
   let arr = [];
-  // let isBanned = 'false';
+  let ipArray=[];
+
+
   IP.forEach(dataIP=>{
-
       let ips = dataIP.val();
-    setTimeout(()=>{
-        arr.push(ips.IP);
-    },1000);
+      arr.push({IP:ips.IP,Key:dataIP.key,Ban:ips.Ban,Warning:ips.Warning});
 
+      console.log(ips.Ban);
 
-    // let ban = firebase.database().ref('/Banned IP/');
-    // ban.on("value",(bans)=>{
-    //   bans.forEach(banned=>{
-    //     let bannedData = banned.val();
-    //     if(bannedData.IPAddress === ips.IP){
-    //       isBanned='true';
-    //       console.log('true');
-    //     }else{
-    //       isBanned='false';
-    //       console.log('false');
-    //     }
-    //   });
-    // });
-    
   });
+//   setTimeout(()=>{
+//     //remove double ip
+//       // if(ipArray.indexOf(ips.IP)== -1){
+//       //   ipArray.push(ips.IP);
+//       // }  
 
+// },1000);
   setTimeout(()=>{
+    function removeDuplicateObjectFromArray(array, key) {
+      var check = new Set();
+      return array.filter(obj => !check.has(obj[key]) && check.add(obj[key]));
+    }
+    
+    ipArray.push(removeDuplicateObjectFromArray(arr, 'IP'));
+    
+    
+let ban = firebase.database().ref('/Banned IP/');
+document.querySelector('.ip-container').innerHTML = '';
+for(let i in ipArray){
+  for(let j in ipArray[i]){
+        const container = document.createElement('div');
+        container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px; justify-content:space-between; align-items:center; ';
+  
+        const ipContainer = document.createElement('div');
+        ipContainer.style = 'max-width:15rem; min-width:15rem;';
+        const ipTitle = document.createElement('p');
+        ipTitle.innerHTML = 'IP Address';
+        ipTitle.style='margin-bottom:10px;';
+        const ipText = document.createElement('p');
+        ipText.innerHTML = ipArray[i][j].IP;
+  
+        const warningContainer = document.createElement('div');
+        warningContainer.style = 'max-width:15rem; min-width:15rem;';
+        const warningTitle = document.createElement('p');
+        warningTitle.innerHTML = 'Warning';
+        warningTitle.style='margin-bottom:10px;';
+        const warningText = document.createElement('p');
+        warningText.innerHTML = ipArray[i][j].Warning;
+  
+        const banContainer = document.createElement('div');
+        banContainer.style = 'max-width:15rem; min-width:15rem;';
+        const banTitle = document.createElement('p');
+        banTitle.innerHTML = 'Banned';
+        banTitle.style='margin-bottom:10px;';
+        const banText = document.createElement('p');
+        banText.innerHTML = ipArray[i][j].Ban;
+  
+        document.querySelector('.ip-container').appendChild(container);
+        container.appendChild(ipContainer);
+        ipContainer.appendChild(ipTitle);
+        ipContainer.appendChild(ipText);
+  
+        container.appendChild(warningContainer);
+        warningContainer.appendChild(warningTitle);
+        warningContainer.appendChild(warningText);
+  
+        container.appendChild(banContainer);
+        banContainer.appendChild(banTitle);
+        banContainer.appendChild(banText);
 
+          ban.on("value",(el)=>{
+          el.forEach(e=>{
+            let target = e.val();
 
-    //remove double ip
-      let ipArray=[];
-      for(let i=0;i<arr.length;i++){
-        if(ipArray.indexOf(arr[i])== -1){
-          ipArray.push(arr[i]);
-        }
-      }
-      
-      ipArray.forEach(ip=>{
+            if(target.IPAddress === ipArray[i][j].IP){
+              let newIP = firebase.database().ref(`/UserIP/${ipArray[i][j].Key}`);
+              newIP.set({
+                IP:ipArray[i][j].IP,
+                Ban:'true'
+              });
 
-      const container = document.createElement('div');
-      container.style = 'box-shadow:1px 1px 3px 1px rgba(0,0,0,0.2);background-color:#ecf0f3;padding:20px; display:flex;flex-direction:row; margin-bottom:20px; justify-content:space-between; align-items:center; ';
-
-      const ipContainer = document.createElement('div');
-      ipContainer.style = 'max-width:15rem; min-width:15rem;';
-      const ipTitle = document.createElement('p');
-      ipTitle.innerHTML = 'IP Address';
-      ipTitle.style='margin-bottom:10px;';
-      const ipText = document.createElement('p');
-      ipText.innerHTML = ip;
-
-      // const warningContainer = document.createElement('div');
-      // warningContainer.style = 'max-width:15rem; min-width:15rem;';
-      // const warningTitle = document.createElement('p');
-      // warningTitle.innerHTML = 'Warning';
-      // warningTitle.style='margin-bottom:10px;';
-      // const warningText = document.createElement('p');
-      // warningText.innerHTML = '0';
-
-      // const banContainer = document.createElement('div');
-      // banContainer.style = 'max-width:15rem; min-width:15rem;';
-      // const banTitle = document.createElement('p');
-      // banTitle.innerHTML = 'Banned';
-      // banTitle.style='margin-bottom:10px;';
-      // const banText = document.createElement('p');
-      // banText.innerHTML = 'false';
-
-      document.querySelector('.ip-container').appendChild(container);
-      container.appendChild(ipContainer);
-      ipContainer.appendChild(ipTitle);
-      ipContainer.appendChild(ipText);
-
-      // container.appendChild(warningContainer);
-      // warningContainer.appendChild(warningTitle);
-      // warningContainer.appendChild(warningText);
-
-      // container.appendChild(banContainer);
-      // banContainer.appendChild(banTitle);
-      // banContainer.appendChild(banText);
-      });
+            }else{
+              let newIP = firebase.database().ref(`/UserIP/${ipArray[i][j].Key}`);
+              newIP.set({
+                IP:ipArray[i][j].IP,
+                Ban:'false'
+              });
+            }
+          });
+        });
+       
+  }
+}
 
 },1000);
 });
-
 
 //Message
 let messages = firebase.database().ref('Message');

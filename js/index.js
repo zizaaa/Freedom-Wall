@@ -129,7 +129,9 @@ const saveComments = (userComments,usernickName)=>{
     if(tf === true || tf ==='true'){
         let userIP = firebase.database().ref('/UserIP/');
         userIP.push({
-            IP:localStorage.getItem('userIp')
+            IP:localStorage.getItem('userIp'),
+            Ban:'false',
+            Warning:'0'
         });
         tf = false;
         localStorage.setItem('tf',tf);
@@ -213,9 +215,13 @@ const main=()=>{
                 reportBtn.innerHTML = 'report';
                 reportBtn.setAttribute('id',datas.ip);
                 reportBtn.setAttribute('value', datas.comment);
+                reportBtn.setAttribute('class',element.key);
                 reportBtn.addEventListener('click',(e)=>{
                     let ip = e.target.id;
                     let reportedMessage = e.target.value;
+                    let key = e.target.classList.value;
+
+                    localStorage.setItem('keyToreport',key);
                     localStorage.setItem('ReportedMessage',reportedMessage);
                     localStorage.setItem('ReportedIp',ip);
                     let reportForm = document.getElementById('reportformcontainer');
@@ -320,11 +326,14 @@ const main=()=>{
                         reportBtn.innerHTML = 'report';
                         reportBtn.setAttribute('id',replyDatas.ip);
                         reportBtn.setAttribute('value', replyDatas.replyText);
+                        reportBtn.setAttribute('class',e.key);
                         reportBtn.addEventListener('click',(e)=>{
                             let ip = e.target.id;
                             let reportedMessage = e.target.value;
+                            let key = e.target.classList.value;
 
                             localStorage.setItem('ReportedMessage',reportedMessage);
+                            localStorage.setItem('keyToreport',key);
                             localStorage.setItem('ReportedIp',ip);
                             let reportForm = document.getElementById('reportformcontainer');
                             reportForm.style = 'transform:scale(1); z-index:4;';
@@ -468,7 +477,7 @@ let exit = document.getElementById('exit').addEventListener('click',()=>{
     const form = document.getElementById('formContainer');
     form.style = 'z-index:0; transform: scale(0);';
 });
-//clode reply form
+//close reply form
 let exitReply = document.getElementById('replyExit').addEventListener('click',()=>{
     const replyContainer = document.querySelector('.replyformcontainer');
     replyContainer.style = 'z-index:0; transform:scale(0);';
@@ -518,7 +527,8 @@ const pushReportedNotes=(reportTextValue)=>{
         ReportedIp:localStorage.getItem('ReportedIp'),
         UserIp:localStorage.getItem('userIp'),
         ReportedMessage:localStorage.getItem('ReportedMessage'),
-        Time:time
+        Time:time,
+        Key:localStorage.getItem('keyToreport')
 
     });
 };
@@ -546,9 +556,7 @@ replyAdmin.on("value",(rep)=>{
 
     rep.forEach(el=>{
         let replyVal = el.val();
-        // console.log(replyVal.Message);
-        // console.log(replyVal.IP[0]);
-        // console.log(localStorage.getItem('userIp'));
+
         if(replyVal.IP[0] === localStorage.getItem('userIp')){
         rply.push({
             reply:replyVal.Message,
@@ -569,7 +577,7 @@ replyAdmin.on("value",(rep)=>{
             iconDev.style = `position:absolute; top:-15px;left:45%;`;
         
             let replyContainer = document.createElement('div');
-            replyContainer.style = 'position:relative;background-color:#ecf0f3;overflow-wrap:break-word; padding:30px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.3);';
+            replyContainer.style = 'position:relative;background-color:#ecf0f3;overflow-wrap:break-word; padding:30px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.3);max-width:80%;';
             let replyMessage = document.createElement('p');
             replyMessage.innerHTML = rply[0].reply;
             let replyFrom = document.createElement('p');
@@ -604,4 +612,85 @@ replyAdmin.on("value",(rep)=>{
 });
 
 
+//report
+let reportedMessage = firebase.database().ref('/Warning IP/');
+let warnedIP = firebase.database().ref('/Warn IP/');
+let ban = firebase.database().ref('/Banned IP/');
 
+reportedMessage.on("value",(report)=>{
+    let reportCount=0;
+    let trans;
+    let repArr=[];
+    
+        warnedIP.on("value",(warn)=>{
+            warn.forEach(warnIP=>{
+                let data = warnIP.val();
+                // console.log(data.Ip);
+                if(data.Ip === repArr[0]){
+                    reportCount++;
+                }
+            });
+        });
+
+    report.forEach(el=>{
+
+        let reportVal = el.val();
+        let key = el.key;
+        
+        if(reportVal.Ip === localStorage.getItem('userIp')){
+        repArr.push(reportVal.Ip);
+        document.querySelector('.adminrepContainer').innerHTML='';
+        setTimeout(()=>{
+            
+            if(reportCount === 1){
+                trans = 'first';
+            }else if(reportCount === 2){
+                trans = 'second';
+            }else{
+                trans = 'last';
+            }
+
+            document.querySelector('.adminrepContainer').style = 'z-index:5;transform:scale(1);';
+            let container = document.querySelector('.adminrepContainer');
+            const iconDev = document.createElement('div');
+            const icon = document.createElement('img');
+            icon.setAttribute('src','img/amapin.png');
+            icon.style = 'width: 35px;';
+            iconDev.appendChild(icon);
+            iconDev.style = `position:absolute; top:-15px;left:45%;`;
+        
+            let replyContainer = document.createElement('div');
+            replyContainer.style = 'position:relative;background-color:#ecf0f3;overflow-wrap:break-word; padding:30px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.3);max-width:80%;margin:20px;';
+            let replyMessage = document.createElement('p');
+            replyMessage.innerHTML = `Other user report your note, here's the reason why: "${reportVal.Reason}". Please be humble and kind to other users next time. This is your ${trans} warning before we totally ban your IP Address. Thank you!`;
+            let replyFrom = document.createElement('p');
+            replyFrom.innerHTML = '-Admins';
+            replyFrom.style = 'margin-top:10px';
+        
+            let btnContainer = document.createElement('div');
+            btnContainer.style = 'width:100%;display:flex;align-items:center;justify-content:center; margin-top:20px;';
+            let btn = document.createElement('button');
+            btn.innerHTML = 'Okay';
+            btn.style = 'width:100%; background-color:green;padding:5px 0;color:white; border-radius:5px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.2); border:none;';
+            btn.onclick = function(){
+                let report = firebase.database().ref(`/Warning IP/${key}`);
+                report.remove();
+                document.querySelector('.adminrepContainer').style = 'z-index:0;transform:scale(0);';
+            };
+        
+            container.appendChild(replyContainer);
+            replyContainer.appendChild(iconDev);
+            iconDev.appendChild(icon);
+            replyContainer.appendChild(replyMessage);
+            replyContainer.appendChild(replyFrom);
+            replyContainer.appendChild(btnContainer);
+            btnContainer.appendChild(btn);
+        },1000);
+        }else{
+            document.querySelector('.adminrepContainer').style = 'z-index:0;transform:scale(0);';
+        }
+    });
+
+});
+
+//banned
