@@ -108,13 +108,13 @@ const saveComments = (userComments,usernickName)=>{
         //check ip if still in database
         let userIP = firebase.database().ref('/UserIP/');
         userIP.on("value",(IP)=>{
-            let arr=['192.168.1.1'];
+            let arr=[];
             IP.forEach(ips=>{
                 let ipData = ips.val();
                 arr.push(ipData.IP);
 
             });
-            setTimeout(()=>{
+            // setTimeout(()=>{
                 for(let i = 0;i<arr.length;i++){
                 if(arr[i]===localStorage.getItem('userIp')){
                     tf = false;
@@ -124,14 +124,13 @@ const saveComments = (userComments,usernickName)=>{
                     localStorage.setItem('tf',tf);
                 }
                 }
-            },1000);
+            // },1000);
         });
     if(tf === true || tf ==='true'){
         let userIP = firebase.database().ref('/UserIP/');
         userIP.push({
             IP:localStorage.getItem('userIp'),
-            Ban:'false',
-            Warning:'0'
+            Ban:'false'
         });
         tf = false;
         localStorage.setItem('tf',tf);

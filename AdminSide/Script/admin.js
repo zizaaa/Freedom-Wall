@@ -444,8 +444,9 @@ warn.on("value",(warnAd)=>{
 
 //ban
 let ban = firebase.database().ref('/Banned IP/');
-
+let users = firebase.database().ref('/UserIP/');
 ban.on("value",(adminBan)=>{
+
   document.querySelector('.banned-container').innerHTML = '';
   adminBan.forEach(banned=>{
     let bannedData = banned.val();
@@ -469,13 +470,35 @@ ban.on("value",(adminBan)=>{
      delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
      delBtn.style = 'margin-right:20px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px;padding:10px ;background-color:red; color:white; font-weight:bold;';
     delBtn.setAttribute('id',banned.key);
+    delBtn.setAttribute('value',bannedData.IPAddress);
      delBtn.addEventListener('click',(e)=>{
+
+
+
         let key = delBtn.id;
         let ban = firebase.database().ref(`/Banned IP/${key}`);
         let prompt = confirm('Are you sure to delete this IP Address?');
         
         if(prompt){
           ban.remove();
+
+          // users.on("value",(el)=>{
+          //   el.forEach(ei=>{
+          //     let data = ei.val();
+      
+          //     if(data.Ban ==='true'&&data.IP === e.target.value){
+          //       console.log(ei.key);
+          //       let users = firebase.database().ref(`/UserIP/${ei.key}`);
+          //       users.set({
+          //         IP:data.IP,
+          //         Ban:'false'
+          //       });
+    
+          //     }else{
+          //       console.log('false');
+          //     }
+          //   });
+          // });
           // window.location.reload(true);
         }
 
@@ -500,8 +523,6 @@ userIP.on("value",(IP)=>{
   IP.forEach(dataIP=>{
       let ips = dataIP.val();
       arr.push({IP:ips.IP,Key:dataIP.key,Ban:ips.Ban,Warning:ips.Warning});
-
-      console.log(ips.Ban);
 
   });
 //   setTimeout(()=>{
@@ -576,11 +597,12 @@ for(let i in ipArray){
               });
 
             }else{
-              let newIP = firebase.database().ref(`/UserIP/${ipArray[i][j].Key}`);
-              newIP.set({
-                IP:ipArray[i][j].IP,
-                Ban:'false'
-              });
+              // let newIP = firebase.database().ref(`/UserIP/${ipArray[i][j].Key}`);
+              // newIP.set({
+              //   IP:ipArray[i][j].IP,
+              //   Ban:'false'
+              // });
+            
             }
           });
         });
