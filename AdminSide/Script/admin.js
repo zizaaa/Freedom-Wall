@@ -479,6 +479,7 @@ ban.on("value",(adminBan)=>{
     // delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
     // delBtn.style = 'margin-right:20px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px;padding:10px ;background-color:red; color:white; font-weight:bold;';
     // delBtn.setAttribute('id',banned.key);
+
     // delBtn.setAttribute('value',bannedData.IPAddress);
     // delBtn.addEventListener('click',(e)=>{
     //   let delban = firebase.database().ref(`/Banned IP/${delBtn.id}`);
@@ -506,7 +507,7 @@ ban.on("value",(adminBan)=>{
     acContainer.appendChild(acTitle);
     acContainer.appendChild(bannedAc);
     container.appendChild(btnContainer);
-    btnContainer.appendChild(delBtn);
+    // btnContainer.appendChild(delBtn);
     btnContainer.appendChild(confirm);
   });
 });
