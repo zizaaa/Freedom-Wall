@@ -645,45 +645,53 @@ reportedMessage.on("value",(report)=>{
                 trans = 'first';
             }else if(reportCount === 2){
                 trans = 'second';
-            }else{
+            }else if(reportCount === 3){
                 trans = 'last';
+            }else{
+                ban.push({
+                    IPAddress:reportVal.Ip,
+                    Action:'Pending'
+                });
             }
+            
+            if(trans!=undefined){
 
-            document.querySelector('.adminrepContainer').style = 'z-index:5;transform:scale(1);';
-            let container = document.querySelector('.adminrepContainer');
-            const iconDev = document.createElement('div');
-            const icon = document.createElement('img');
-            icon.setAttribute('src','img/amapin.png');
-            icon.style = 'width: 35px;';
-            iconDev.appendChild(icon);
-            iconDev.style = `position:absolute; top:-15px;left:45%;`;
-        
-            let replyContainer = document.createElement('div');
-            replyContainer.style = 'position:relative;background-color:#ecf0f3;overflow-wrap:break-word; padding:30px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.3);max-width:80%;margin:20px;';
-            let replyMessage = document.createElement('p');
-            replyMessage.innerHTML = `Other user report your note, here's the reason why: "${reportVal.Reason}". Please be humble and kind to other users next time. This is your ${trans} warning before we totally ban your IP Address. Thank you!`;
-            let replyFrom = document.createElement('p');
-            replyFrom.innerHTML = '-Admins';
-            replyFrom.style = 'margin-top:10px';
-        
-            let btnContainer = document.createElement('div');
-            btnContainer.style = 'width:100%;display:flex;align-items:center;justify-content:center; margin-top:20px;';
-            let btn = document.createElement('button');
-            btn.innerHTML = 'Okay';
-            btn.style = 'width:100%; background-color:green;padding:5px 0;color:white; border-radius:5px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.2); border:none;';
-            btn.onclick = function(){
-                let report = firebase.database().ref(`/Warning IP/${key}`);
-                report.remove();
-                document.querySelector('.adminrepContainer').style = 'z-index:0;transform:scale(0);';
-            };
-        
-            container.appendChild(replyContainer);
-            replyContainer.appendChild(iconDev);
-            iconDev.appendChild(icon);
-            replyContainer.appendChild(replyMessage);
-            replyContainer.appendChild(replyFrom);
-            replyContainer.appendChild(btnContainer);
-            btnContainer.appendChild(btn);
+                document.querySelector('.adminrepContainer').style = 'z-index:5;transform:scale(1);';
+                let container = document.querySelector('.adminrepContainer');
+                const iconDev = document.createElement('div');
+                const icon = document.createElement('img');
+                icon.setAttribute('src','img/amapin.png');
+                icon.style = 'width: 35px;';
+                iconDev.appendChild(icon);
+                iconDev.style = `position:absolute; top:-15px;left:45%;`;
+            
+                let replyContainer = document.createElement('div');
+                replyContainer.style = 'position:relative;background-color:#ecf0f3;overflow-wrap:break-word; padding:30px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.3);max-width:80%;margin:20px;';
+                let replyMessage = document.createElement('p');
+                replyMessage.innerHTML = `Other user report your note, here's the reason why: "${reportVal.Reason}". Please be humble and kind to other users next time. This is your ${trans} warning before we totally ban your IP Address. Thank you!`;
+                let replyFrom = document.createElement('p');
+                replyFrom.innerHTML = '-Admins';
+                replyFrom.style = 'margin-top:10px';
+            
+                let btnContainer = document.createElement('div');
+                btnContainer.style = 'width:100%;display:flex;align-items:center;justify-content:center; margin-top:20px;';
+                let btn = document.createElement('button');
+                btn.innerHTML = 'Okay';
+                btn.style = 'width:100%; background-color:green;padding:5px 0;color:white; border-radius:5px;box-shadow:1px 1px 1px 1px rgba(0,0,0,0.2); border:none;';
+                btn.onclick = function(){
+                    let report = firebase.database().ref(`/Warning IP/${key}`);
+                    report.remove();
+                    document.querySelector('.adminrepContainer').style = 'z-index:0;transform:scale(0);';
+                };
+            
+                container.appendChild(replyContainer);
+                replyContainer.appendChild(iconDev);
+                iconDev.appendChild(icon);
+                replyContainer.appendChild(replyMessage);
+                replyContainer.appendChild(replyFrom);
+                replyContainer.appendChild(btnContainer);
+                btnContainer.appendChild(btn);
+            }
         },1000);
         }else{
             document.querySelector('.adminrepContainer').style = 'z-index:0;transform:scale(0);';
@@ -693,3 +701,23 @@ reportedMessage.on("value",(report)=>{
 });
 
 //banned
+ban.on("value",(el)=>{
+    el.forEach(e=>{
+        let datas = e.val();
+        // console.log(datas);
+
+        if(datas.Action === 'Confirmed' && datas.IPAddress === localStorage.getItem('userIp')){
+            console.log(datas);
+
+            const container = document.createElement('div');
+            container.style = 'position:absolute;top:0;bottom:0;left:0;right:0; background-color:black;z-index:100;transform:scale(1);color:white; display:flex;align-items:center;justify-content:center;font-size:3rem;padding:20px;font-family:roboto;';
+            container.innerHTML = 'You don\'t have permission to access this website.';
+            document.body.appendChild(container);
+            // window.location.reload(false);
+            window.onbeforeunload = function(e) {
+                // Turning off the event
+                e.preventDefault();
+            };
+        }
+    });
+});

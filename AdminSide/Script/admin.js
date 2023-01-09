@@ -310,7 +310,8 @@ report.on("value",(adminReport)=>{
             let prompt = confirm('Are you sure to ban this IP Address?');
                 if(prompt){
                   ban.push({
-                    IPAddress:reportDatas.ReportedIp
+                    IPAddress:reportDatas.ReportedIp,
+                    Action:'Pending'
                   });
       
                   let report = firebase.database().ref(`/Reported Notes/${key}`);
@@ -462,53 +463,51 @@ ban.on("value",(adminBan)=>{
     const bannedIP = document.createElement('p');
     bannedIP.innerHTML = bannedData.IPAddress;
 
+    const acContainer = document.createElement('div');
+    acContainer.style = 'max-width:15rem; min-width:15rem; margin-right:20px;';
+    const acTitle = document.createElement('p');
+    acTitle.innerHTML = 'Action';
+    acTitle.style='margin-bottom:10px;';
+    const bannedAc = document.createElement('p');
+    bannedAc.innerHTML = bannedData.Action;
+
      //btncontainer
      const btnContainer = document.createElement('div');
 
      //delete button
-     const delBtn = document.createElement('button');
-     delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-     delBtn.style = 'margin-right:20px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px;padding:10px ;background-color:red; color:white; font-weight:bold;';
-    delBtn.setAttribute('id',banned.key);
-    delBtn.setAttribute('value',bannedData.IPAddress);
-     delBtn.addEventListener('click',(e)=>{
+    // const delBtn = document.createElement('button');
+    // delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+    // delBtn.style = 'margin-right:20px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px;padding:10px ;background-color:red; color:white; font-weight:bold;';
+    // delBtn.setAttribute('id',banned.key);
+    // delBtn.setAttribute('value',bannedData.IPAddress);
+    // delBtn.addEventListener('click',(e)=>{
+    //   let delban = firebase.database().ref(`/Banned IP/${delBtn.id}`);
+    //   delban.remove();
+    // });
 
-
-
-        let key = delBtn.id;
-        let ban = firebase.database().ref(`/Banned IP/${key}`);
-        let prompt = confirm('Are you sure to delete this IP Address?');
-        
-        if(prompt){
-          ban.remove();
-
-          // users.on("value",(el)=>{
-          //   el.forEach(ei=>{
-          //     let data = ei.val();
-      
-          //     if(data.Ban ==='true'&&data.IP === e.target.value){
-          //       console.log(ei.key);
-          //       let users = firebase.database().ref(`/UserIP/${ei.key}`);
-          //       users.set({
-          //         IP:data.IP,
-          //         Ban:'false'
-          //       });
-    
-          //     }else{
-          //       console.log('false');
-          //     }
-          //   });
-          // });
-          // window.location.reload(true);
-        }
-
+    const confirm = document.createElement('button');
+    confirm.innerHTML = 'Confirm';
+    confirm.style = 'margin-right:20px;box-shadow:2px 2px 2px 1px rgba(0,0,0,0.2);cursor:pointer;border:none;border-radius:5px;padding:10px ;background-color:red; color:white; font-weight:bold; text-transform:uppercase;';
+    confirm.setAttribute('id',banned.key);
+    confirm.setAttribute('value',bannedData.IPAddress);
+    confirm.addEventListener('click',(e)=>{
+      let setban = firebase.database().ref(`/Banned IP/${confirm.id}`);
+      setban.set({
+        IPAddress:bannedData.IPAddress,
+        Action:'Confirmed'
       });
+    });
+
     document.querySelector('.banned-container').appendChild(container);
     container.appendChild(ipContainer);
     ipContainer.appendChild(ipTitle);
     ipContainer.appendChild(bannedIP);
+    container.appendChild(acContainer);
+    acContainer.appendChild(acTitle);
+    acContainer.appendChild(bannedAc);
     container.appendChild(btnContainer);
     btnContainer.appendChild(delBtn);
+    btnContainer.appendChild(confirm);
   });
 });
 
@@ -522,7 +521,7 @@ userIP.on("value",(IP)=>{
 
   IP.forEach(dataIP=>{
       let ips = dataIP.val();
-      arr.push({IP:ips.IP,Key:dataIP.key,Ban:ips.Ban,Warning:ips.Warning});
+      arr.push({IP:ips.IP,Key:dataIP.key,Ban:ips.Ban});
 
   });
 //   setTimeout(()=>{
@@ -556,13 +555,13 @@ for(let i in ipArray){
         const ipText = document.createElement('p');
         ipText.innerHTML = ipArray[i][j].IP;
   
-        const warningContainer = document.createElement('div');
-        warningContainer.style = 'max-width:15rem; min-width:15rem;';
-        const warningTitle = document.createElement('p');
-        warningTitle.innerHTML = 'Warning';
-        warningTitle.style='margin-bottom:10px;';
-        const warningText = document.createElement('p');
-        warningText.innerHTML = ipArray[i][j].Warning;
+        // const warningContainer = document.createElement('div');
+        // warningContainer.style = 'max-width:15rem; min-width:15rem;';
+        // const warningTitle = document.createElement('p');
+        // warningTitle.innerHTML = 'Warning';
+        // warningTitle.style='margin-bottom:10px;';
+        // const warningText = document.createElement('p');
+        // warningText.innerHTML = ipArray[i][j].Warning;
   
         const banContainer = document.createElement('div');
         banContainer.style = 'max-width:15rem; min-width:15rem;';
@@ -577,9 +576,9 @@ for(let i in ipArray){
         ipContainer.appendChild(ipTitle);
         ipContainer.appendChild(ipText);
   
-        container.appendChild(warningContainer);
-        warningContainer.appendChild(warningTitle);
-        warningContainer.appendChild(warningText);
+        // container.appendChild(warningContainer);
+        // warningContainer.appendChild(warningTitle);
+        // warningContainer.appendChild(warningText);
   
         container.appendChild(banContainer);
         banContainer.appendChild(banTitle);
